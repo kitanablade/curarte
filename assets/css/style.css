@@ -1,4 +1,8 @@
-* {
-    margin: 0;
-    padding: 0;
+
+/*AK- CSS for the navbar -header with logo*/
+.nav-wrapper {
+    background-color: #23333B !important;
+    font-size: 14px;
+    font-weight: bold;
   }
+
