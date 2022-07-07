@@ -1,13 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curarte</title>
+
+    <!--Ak- materialize CSS imports -->
+ 
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-<body>
+
+  </head>
+  <body>
+    <header>
+
+      <!--AK- Header with logo-->
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo right">LOGO</a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="sass.html">Search</a></li>
+            <li><a href="badges.html">My Collection</a></li>
+            <!-- Modal Trigger for contact details-->
+            <li><a class="waves-effect waves-light  modal-trigger" href="#modal1">Contact us</a></li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <!--AK- Slider for the hero image-->
+    <div class="slider">
+      <ul class="slides">
+        <li>
+          <img
+            src="./assets/images/article1.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article3.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article1.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article1.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!--Ak- Modal for contact info-->
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Contact us</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+    <!--AK- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+
+   
+
     <script src="./assets/js/script.js"></script>
-</body>
+  </body>
 </html>

@@ -1,3 +1,23 @@
+
+
+/*AK- HTML- Materialize framework design */
+$(document).ready(function(){
+  $('.slider').slider();
+});
+
+$(document).ready(function(){
+  $('.modal').modal();
+});
+
+$(document).ready(function(){
+  $('.sidenav').sidenav();
+});
+
+
+
+
+/*KW- Please add your queries for fuctionalities */
+
 var artQueryURL = "https://api.artic.edu/api/v1/artworks";
 var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
 // fetch(sampleQueryURL)
@@ -24,10 +44,11 @@ var artworkTitle = "the starry night";
  //var infoQueryURL = "https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch=meaning&format=json&origin=*";
  var infoQueryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=The_Starry_Night&formatversion=2&rvprop=content&rvslots=*&rvsection=summary&origin=*"
 
-fetch(infoQueryURL)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-  })
+    fetch(artQueryURL)
+    .then(function (response){
+        return response.json();
+    })
+    .then(function (data) {
+
+    })
+
