@@ -1,3 +1,23 @@
+
+
+/*AK- HTML- Materialize framework design */
+$(document).ready(function(){
+  $('.slider').slider();
+});
+
+$(document).ready(function(){
+  $('.modal').modal();
+});
+
+$(document).ready(function(){
+  $('.sidenav').sidenav();
+});
+
+
+
+
+/*KW- Please add your queries for fuctionalities */
+
 var artQueryURL = "https://api.artic.edu/api/v1/artworks";
 var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz"; 
 fetch(sampleQueryURL)
@@ -27,3 +47,4 @@ var infoQueryURL =
     .then(function (data) {
 
     })
+
