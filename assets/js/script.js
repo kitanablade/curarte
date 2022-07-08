@@ -2,7 +2,21 @@
 
 /*AK- HTML- Materialize framework design */
 $(document).ready(function(){
-  $('.slider').slider();
+  $('.slider').slider({
+    height : 800, // default - height : 400
+       
+  });
+});
+
+$(document).ready(function(){
+$(window).scroll(function(){
+  if($(window).scrollTop()>300){
+    $('nav').addClass('red');
+  }else
+  {
+    $('nav').removeClass('red');
+  }
+})
 });
 
 $(document).ready(function(){
@@ -12,9 +26,12 @@ $(document).ready(function(){
 $(document).ready(function(){
   $('.sidenav').sidenav();
 });
-
-
-
+$(document).ready(function(){
+  $('.parallax').parallax();
+});
+$(document).ready(function(){
+  $('select').formSelect();
+});
 
 /*KW- Please add your queries for fuctionalities */
 
