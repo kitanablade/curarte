@@ -2,13 +2,13 @@
 //AK- HTML- Materialize framework design
 $(document).ready(function () {
   $(".slider").slider();
-=======
+
 
 
 /*AK- HTML- Materialize framework design */
 $(document).ready(function(){
   $('.slider').slider({
-    height : 800, // default - height : 400
+    height : 500, // default - height : 400
        
   });
 });
@@ -33,12 +33,16 @@ $(document).ready(function () {
   $(".sidenav").sidenav();
 });
 
-=======
+
 $(document).ready(function(){
   $('.parallax').parallax();
 });
 $(document).ready(function(){
   $('select').formSelect();
+});
+
+$(document).ready(function() {
+  $('input#input_text, textarea#textarea2').characterCounter();
 });
 
 
