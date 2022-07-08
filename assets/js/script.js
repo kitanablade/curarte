@@ -2,6 +2,7 @@
 //AK- HTML- Materialize framework design
 $(document).ready(function () {
   $(".slider").slider();
+});
 
 
 
@@ -32,7 +33,6 @@ $(document).ready(function () {
 $(document).ready(function () {
   $(".sidenav").sidenav();
 });
-
 
 $(document).ready(function(){
   $('.parallax').parallax();
