@@ -1,13 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curarte</title>
+
+    <!--Ak- materialize CSS imports -->
+   <!--Import Google Icon Font-->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-<body>
+
+  </head>
+
+
+  
+  <body>
+    
+ <!--AK- Header with logo-->
+  <div class="main-wrapper">
+     <div class="menu-holder">
+      <nav>
+      <div class="nav-wrapper">
+        <a href="#" data-target="mobile-demo" class="brand-logo left sidenav-trigger"><i class="material-icons">menu</i></a>
+      
+        <a href="#" data-target="mobile-demo" class="brand-logo right ">CurARTe</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+          <li><a href="#search">Search</a></li>
+          <li><a href="#">My Collection</a></li>
+               <!-- Modal Trigger for contact details-->
+     
+          <li><a class="waves-effect waves-light  modal-trigger" href="#modal1">Contact us</a></li>
+        </ul>
+      </div>
+    </nav>
+  
+    <ul class="sidenav" id="mobile-demo">
+      <li><div class="user-view">
+        <div class="background">
+          <img src="./assets/images/imgm2.jpg" >
+        </div>
+        <a href="#user"><img class="circle" src="./assets/images/img 27.png"></a>
+        <a href="#name"><span class="white-text name">CurARTe</span></a>
+       
+      </div></li>
+      <li><a href="#search">Search</a></li>
+      <li><a href="#">My Collection</a></li>
+      <!-- Modal Trigger for contact details-->
+     
+      <li><a class="waves-effect waves-light  modal-trigger" href="#modal1">Contact us</a></li>
+    </ul>
+    </div>
+    
+
+
+    <!--AK- Slider for the hero image-->
+    <div class="slider-holder">
+    <div class="slider">
+      <ul class="slides">
+        <li>
+          <img
+            src="./assets/images/article1.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article2.avif"
+
+            alt="random img"
+          />
+          <div class="caption left-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article3.jpg"
+
+            alt="random img"
+          />
+          <div class="caption right-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+        <li>
+          <img
+            src="./assets/images/article1.jpg"
+
+            alt="random img"
+          />
+          <div class="caption center-align">
+            <h3>Tagline</h3>
+            <h5 class="light grey-text text-lighten-3">Info</h5>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+  
+           <!--Ak- Search Form-->
+           <div class="row valign-wrapper">
+
+           
+<div class="card-panel  input-field col s6 offset-s3 valign">
+  <select class="icons" id="search">
+    <option value="" disabled selected>Your Search Criteria</option>
+    <option value="1" data-icon="./assets/images/artist.jpg" class="left">Artist</option>
+    <option value="2" data-icon="./assets/images/artist.jpg" class="left">Artwork Title</option>
+    <option value="3" data-icon="./assets/images/artist.jpg" class="left">Date</option>
+    <option value="4" data-icon="./assets/images/artist.jpg" class="left">Color</option>
+    <option value="5" data-icon="./assets/images/artist.jpg" class="left">Artwork Type</option>
+    <option value="6" data-icon="./assets/images/artist.jpg" class="left">Techniques</option>
+    <option value="7" data-icon="./assets/images/artist.jpg" class="left">Style</option>
+  </select>
+  <a class="waves-effect waves-light btn">Search</a>
+</div>       
+</div>
+
+  <!--Ak- Modal for contact info-->
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Contact us</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
+
+ 
+
+
+<!--AK- cards-->
+<div class="card-container">
+  <div class="row">
+    <div class="col l4 m4 s12">
+      <div class="card sticky-action">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="./assets/images/img3.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+          <p><a href="#">This is a link</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col l4 m4 s12">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="./assets/images/img3.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+          <p><a href="#">This is a link</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col l4 m4 s12">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="./assets/images/img3.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+          <p><a href="#">This is a link</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col l4 m4 s12">
+
+</div>
+    </div>
+  </div>
+
+
+
+
+
+    <!--AK- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+
+   
+
     <script src="./assets/js/script.js"></script>
-</body>
+  </body>
 </html>
