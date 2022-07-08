@@ -1,12 +1,14 @@
 //AK- HTML- Materialize framework design
 $(document).ready(function () {
   $(".slider").slider();
-});
+
+
 
 /*AK- HTML- Materialize framework design */
-$(document).ready(function () {
-  $(".slider").slider({
-    height: 800, // default - height : 400
+$(document).ready(function(){
+  $('.slider').slider({
+    height : 500, // default - height : 400
+       
   });
 });
 
@@ -28,12 +30,18 @@ $(document).ready(function () {
   $(".sidenav").sidenav();
 });
 
-$(document).ready(function () {
-  $(".parallax").parallax();
+
+$(document).ready(function(){
+  $('.parallax').parallax();
 });
 $(document).ready(function () {
   $("select").formSelect();
 });
+
+$(document).ready(function() {
+  $('input#input_text, textarea#textarea2').characterCounter();
+});
+
 
 /*KW- Please add your queries for fuctionalities */
 // TODO: Get drop-down selection, and store in a variable. Example:
@@ -54,41 +62,36 @@ var aicRequestURL = `https://api.artic.edu/api/v1/artworks/search?q=${userTextIn
 var maxResultsDisplay = 5;
 var dataLength = 0;
 
-// Get the artworks for the artist
-fetch(aicRequestURL)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    // We want to limit the number of artwork results returned to 5, but if there are fewer than 5 available,
-    // then we'll just display those. This prevents the loop from going out-of-bounds if there aren't 5 works.
-    if (data.length < maxResultsDisplay) {
-      dataLength = data.length;
-    } else {
-      dataLength = maxResultsDisplay;
-    }
-    //TODO: Remove Before Flight: console.log();
-    //console.log(data);
-    for (let i = 0; i < dataLength; i++) {
+var artQueryURL = "https://api.artic.edu/api/v1/artworks";
 
-      var artworkTitle = data.data[i].title;
-      //TODO: Remove Before Flight: console.log();
-      console.log(artworkTitle);
-      //create element
-      var artworkTitleEl = document.createElement("h3");
-      //set attribute
-      artworkTitleEl.setAttribute("id", "artwork-" + i);
-      //append
-      //parentDomEl.append(artworkTitleEl);
-      var imageId = data.data[i].image_id;
-      //TODO: Remove Before Flight: console.log();
-      console.log(imageId);
-    }
-  });
+var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz"; 
 
-//create element var hourLabel = document.createElement('div');
-//set attribute hourLabel.setAttribute("class", "hour-label");
-//append parentDomEl.append(hourLabel);
+// kristen building image url
+// img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
+// region=full THEN size=full THEN rotation=0 THEN quality=default THEN format(jpeg/png/tiff/gif/pdf???)
+var imageID;
+var renderImage = "https://www.artic.edu/iiif/2"
+
+
+var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
+
+fetch(sampleQueryURL)
+    .then(function (response){
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+        console.log(data.data[8].artist_title);
+        console.log(data.data[8].title);
+        //TODO: store "h", "s", "l" in an array, concatenate into a string, then try to turn into something more useful
+        console.log(data.data[8].color.h);
+        console.log(data.data[8].color.s);
+        console.log(data.data[8].color.l);
+        console.log(data.data[8].artwork_type_title);
+        //console.log(data.data[8].technique_titles);
+        //console.log(data.data[8].style_titles);
+        console.log(data.data[8].date_display);
+    })
 
 var artworkTitle = "the starry night";
 
@@ -97,8 +100,9 @@ var infoQueryURL =
 // fetch(infoQueryURL)
 //   .then(function (response) {
 //     return response.json();
-//   })
+//   }
 //   .then(function (data) {
 //     console.log(data);
 //     console.log(data.query.pages[0].revisions[0].slots.main.content);
 //   });
+})
