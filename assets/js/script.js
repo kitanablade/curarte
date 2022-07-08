@@ -9,7 +9,7 @@ $(document).ready(function () {
 /*AK- HTML- Materialize framework design */
 $(document).ready(function(){
   $('.slider').slider({
-    height : 800, // default - height : 400
+    height : 500, // default - height : 400
        
   });
 });
@@ -41,6 +41,10 @@ $(document).ready(function(){
   $('select').formSelect();
 });
 
+$(document).ready(function() {
+  $('input#input_text, textarea#textarea2').characterCounter();
+});
+
 
 /*KW- Please add your queries for fuctionalities */
 // TODO: Get drop-down selection, and store in a variable. Example: 
@@ -55,6 +59,7 @@ $(document).ready(function(){
 
 
 var artQueryURL = "https://api.artic.edu/api/v1/artworks";
+
 var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz"; 
 
 // kristen building image url
@@ -62,6 +67,9 @@ var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
 // region=full THEN size=full THEN rotation=0 THEN quality=default THEN format(jpeg/png/tiff/gif/pdf???)
 var imageID;
 var renderImage = "https://www.artic.edu/iiif/2"
+
+
+var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
 
 fetch(sampleQueryURL)
     .then(function (response){
