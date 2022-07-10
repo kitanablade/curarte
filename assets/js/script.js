@@ -54,7 +54,10 @@ $(document).ready(function () {
 //Replace hard-coded variable with listen event
 var userTextInput = "water lilies";
 var maxResultsDisplay = 5;
+const aicSearchRequestFields = ["title", "api_link"];
+      
 var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
+aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
 // Get all the artworks by the artist, or artworks matching artwork title
 fetch(aicSearchApi)
@@ -68,6 +71,9 @@ fetch(aicSearchApi)
       var artworkTitle = artWorks.data[i].title;
       var aicArtPieceApi = artWorks.data[i].api_link;
       
+      const artPieceRequestFields = ["date_display", "artist_title", "image_id"];
+      aicArtPieceApi = aicArtPieceApi.concat("?fields=", artPieceRequestFields);
+
       // Get the data for the individual artworks using the api_link returned from the first request search by artist
       fetch(aicArtPieceApi)
         .then(function (response) {
@@ -84,6 +90,9 @@ fetch(aicSearchApi)
           console.log(`Date: ${dateDisplay}`);
           console.log(`Artist: ${artistName}`);
           console.log(`Image ID: ${imageId}`);
+
+          // Append &fields to URL to limit results and speed up the response
+      
         });
     }
   });
