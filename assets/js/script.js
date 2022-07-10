@@ -52,28 +52,21 @@ $(document).ready(function () {
 // TODO: Inside each function, a separate function will query the Wikipedia API, choose the top/best entry, and generate a <p> DOM element
 
 //Replace hard-coded variable with listen event
-var userTextInput = "monet";
-var aicArtistApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
+var userTextInput = "water lilies";
 var maxResultsDisplay = 5;
-var dataLength = 0;
+var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
 
-// Get all the artworks by the artist
-fetch(aicArtistApi)
+// Get all the artworks by the artist, or artworks matching artwork title
+fetch(aicSearchApi)
   .then(function (response) {
     return response.json();
   })
-  .then(function (artistWorks) {
-    // We want to limit the number of artwork results returned to 5, but if there are fewer than 5 available,
-    // then we'll just display those. This prevents the loop from going out-of-bounds if there aren't 5 works.
-    if (artistWorks.length < maxResultsDisplay) {
-      dataLength = artistWorks.length;
-    } else {
-      dataLength = maxResultsDisplay;
-    }
-    console.log(artistWorks);
-    for (let i = 0; i < dataLength; i++) {
-      var artworkTitle = artistWorks.data[i].title;
-      var aicArtPieceApi = artistWorks.data[i].api_link;
+  .then(function (artWorks) {
+
+    console.log(artWorks);
+    for (let i = 0; i < artWorks.data.length; i++) {
+      var artworkTitle = artWorks.data[i].title;
+      var aicArtPieceApi = artWorks.data[i].api_link;
       
       // Get the data for the individual artworks using the api_link returned from the first request search by artist
       fetch(aicArtPieceApi)
