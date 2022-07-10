@@ -84,6 +84,20 @@ fetch(aicSearchApi)
           var dateDisplay = artPiece.data.date_display;
           var artistName = artPiece.data.artist_title;
           var imageId = artPiece.data.image_id;
+// kristen building image url
+// img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
+// region=full THEN size=843, THEN rotation=0 THEN quality=default THEN format=png)
+
+// imageID can be located through artQueryURL = data.data[8].image_id
+var imageID = "8534685d-1102-e1e3-e194-94f6e925e8b0";
+//var configIii can be located through artQueryURL = data.config.iiif_url
+var configIii = "https://www.artic.edu/iiif/2";
+var renderQueryImageURL = configIii + "/" + imageID + "/full/843,/0/default.jpg";
+console.log(renderQueryImageURL);
+//testing image rendering to card one
+var cardOne = document.querySelector(".activator");
+cardOne.setAttribute("src", renderQueryImageURL);
+
 
           console.log(`Title: ${artworkTitle}`);
           console.log(`Link: ${aicArtPieceApi}`);
