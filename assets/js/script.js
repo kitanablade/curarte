@@ -3,13 +3,10 @@ $(document).ready(function () {
   $(".slider").slider();
 });
 
-
-
 /*AK- HTML- Materialize framework design */
-$(document).ready(function(){
-  $('.slider').slider({
-    height : 500, // default - height : 400
-       
+$(document).ready(function () {
+  $(".slider").slider({
+    height: 500, // default - height : 400
   });
 });
 
@@ -31,17 +28,16 @@ $(document).ready(function () {
   $(".sidenav").sidenav();
 });
 
-$(document).ready(function(){
-  $('.parallax').parallax();
+$(document).ready(function () {
+  $(".parallax").parallax();
 });
 $(document).ready(function () {
   $("select").formSelect();
 });
 
-$(document).ready(function() {
-  $('input#input_text, textarea#textarea2').characterCounter();
+$(document).ready(function () {
+  $("input#input_text, textarea#textarea2").characterCounter();
 });
-
 
 /*KW- Please add your queries for fuctionalities */
 // TODO: Get drop-down selection, and store in a variable. Example:
@@ -57,40 +53,45 @@ $(document).ready(function() {
 
 //Replace hard-coded variable with listen event
 var userTextInput = "monet";
-var aicRequestURL = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
-//var requestById = "https://api.artic.edu/api/v1/artworks/14598";
+var aicArtistApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
 var maxResultsDisplay = 5;
 var dataLength = 0;
 
-// Get the artworks for the artist
-fetch(aicRequestURL)
+// Get all the artworks by the artist
+fetch(aicArtistApi)
   .then(function (response) {
     return response.json();
   })
-  .then(function (data) {
+  .then(function (artistWorks) {
     // We want to limit the number of artwork results returned to 5, but if there are fewer than 5 available,
     // then we'll just display those. This prevents the loop from going out-of-bounds if there aren't 5 works.
-    if (data.length < maxResultsDisplay) {
-      dataLength = data.length;
+    if (artistWorks.length < maxResultsDisplay) {
+      dataLength = artistWorks.length;
     } else {
       dataLength = maxResultsDisplay;
     }
-    //TODO: Remove Before Flight: console.log();
-    //console.log(data);
+    console.log(artistWorks);
     for (let i = 0; i < dataLength; i++) {
+      var artworkTitle = artistWorks.data[i].title;
+      var aicArtPieceApi = artistWorks.data[i].api_link;
+      
+      // Get the data for the individual artworks using the api_link returned from the first request search by artist
+      fetch(aicArtPieceApi)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (artPiece) {
+          console.log(artPiece);
+          var dateDisplay = artPiece.data.date_display;
+          var artistName = artPiece.data.artist_title;
+          var imageId = artPiece.data.image_id;
 
-      var artworkTitle = data.data[i].title;
-      //TODO: Remove Before Flight: console.log();
-      console.log(artworkTitle);
-      //create element
-      var artworkTitleEl = document.createElement("h3");
-      //set attribute
-      artworkTitleEl.setAttribute("id", "artwork-" + i);
-      //append
-      //parentDomEl.append(artworkTitleEl);
-      var imageId = data.data[i].image_id;
-      //TODO: Remove Before Flight: console.log();
-      console.log(imageId);
+          console.log(`Title: ${artworkTitle}`);
+          console.log(`Link: ${aicArtPieceApi}`);
+          console.log(`Date: ${dateDisplay}`);
+          console.log(`Artist: ${artistName}`);
+          console.log(`Image ID: ${imageId}`);
+        });
     }
   });
 
