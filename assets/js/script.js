@@ -52,7 +52,10 @@ $(document).ready(function () {
 // TODO: Inside each function, a separate function will query the Wikipedia API, choose the top/best entry, and generate a <p> DOM element
 
 //Replace hard-coded variable with listen event
-var userTextInput = "water lilies";
+document.getElementById("modal-form-src-btn").onclick = artistTitleSearch;
+
+function artistTitleSearch(){
+var userTextInput = document.getElementById("modal-src-txt-field").value;
 var maxResultsDisplay = 5;
 const aicSearchRequestFields = ["title", "api_link"];
       
@@ -110,6 +113,7 @@ cardOne.setAttribute("src", renderQueryImageURL);
         });
     }
   });
+}// End artistTitleSearch()
 
 //create element var hourLabel = document.createElement('div');
 //set attribute hourLabel.setAttribute("class", "hour-label");
