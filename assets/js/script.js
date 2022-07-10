@@ -68,14 +68,23 @@ var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
 
 // kristen building image url
 // img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
-// region=full THEN size=full THEN rotation=0 THEN quality=default THEN format(jpeg/png/tiff/gif/pdf???)
-var imageID;
-var renderImage = "https://www.artic.edu/iiif/2"
+// region=full THEN size=843, THEN rotation=0 THEN quality=default THEN format=png)
+
+// imageID can be located through artQueryURL = data.data[8].image_id
+var imageID = "8534685d-1102-e1e3-e194-94f6e925e8b0";
+//var configIii can be located through artQueryURL = data.config.iiif_url
+var configIii = "https://www.artic.edu/iiif/2";
+var renderQueryImageURL = configIii + "/" + imageID + "/full/843,/0/default.jpg";
+console.log(renderQueryImageURL);
+//testing image rendering to card one
+var cardOne = document.querySelector(".activator");
+cardOne.setAttribute("src", renderQueryImageURL);
+
 
 
 var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
 
-fetch(sampleQueryURL)
+fetch(artQueryURL)
     .then(function (response){
         return response.json();
     })
@@ -88,6 +97,7 @@ fetch(sampleQueryURL)
         console.log(data.data[8].color.s);
         console.log(data.data[8].color.l);
         console.log(data.data[8].artwork_type_title);
+        console.log(data.data[8].image_id);
         //console.log(data.data[8].technique_titles);
         //console.log(data.data[8].style_titles);
         console.log(data.data[8].date_display);
