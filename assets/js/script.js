@@ -3,13 +3,10 @@ $(document).ready(function () {
   $(".slider").slider();
 });
 
-
-
 /*AK- HTML- Materialize framework design */
-$(document).ready(function(){
-  $('.slider').slider({
-    height : 500, // default - height : 400
-       
+$(document).ready(function () {
+  $(".slider").slider({
+    height: 500, // default - height : 400
   });
 });
 
@@ -31,17 +28,16 @@ $(document).ready(function () {
   $(".sidenav").sidenav();
 });
 
-$(document).ready(function(){
-  $('.parallax').parallax();
+$(document).ready(function () {
+  $(".parallax").parallax();
 });
 $(document).ready(function () {
   $("select").formSelect();
 });
 
-$(document).ready(function() {
-  $('input#input_text, textarea#textarea2').characterCounter();
+$(document).ready(function () {
+  $("input#input_text, textarea#textarea2").characterCounter();
 });
-
 
 /*KW- Please add your queries for fuctionalities */
 // TODO: Get drop-down selection, and store in a variable. Example:
@@ -56,16 +52,38 @@ $(document).ready(function() {
 // TODO: Inside each function, a separate function will query the Wikipedia API, choose the top/best entry, and generate a <p> DOM element
 
 //Replace hard-coded variable with listen event
-var userTextInput = "monet";
-var aicRequestURL = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
-//var requestById = "https://api.artic.edu/api/v1/artworks/14598";
+var userTextInput = "water lilies";
 var maxResultsDisplay = 5;
-var dataLength = 0;
+const aicSearchRequestFields = ["title", "api_link"];
+      
+var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
+aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
-var artQueryURL = "https://api.artic.edu/api/v1/artworks";
+// Get all the artworks by the artist, or artworks matching artwork title
+fetch(aicSearchApi)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (artWorks) {
 
-var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz"; 
+    console.log(artWorks);
+    for (let i = 0; i < artWorks.data.length; i++) {
+      var artworkTitle = artWorks.data[i].title;
+      var aicArtPieceApi = artWorks.data[i].api_link;
+      
+      const artPieceRequestFields = ["date_display", "artist_title", "image_id"];
+      aicArtPieceApi = aicArtPieceApi.concat("?fields=", artPieceRequestFields);
 
+      // Get the data for the individual artworks using the api_link returned from the first request search by artist
+      fetch(aicArtPieceApi)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (artPiece) {
+          console.log(artPiece);
+          var dateDisplay = artPiece.data.date_display;
+          var artistName = artPiece.data.artist_title;
+          var imageId = artPiece.data.image_id;
 // kristen building image url
 // img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
 // region=full THEN size=843, THEN rotation=0 THEN quality=default THEN format=png)
@@ -81,27 +99,21 @@ var cardOne = document.querySelector(".activator");
 cardOne.setAttribute("src", renderQueryImageURL);
 
 
+          console.log(`Title: ${artworkTitle}`);
+          console.log(`Link: ${aicArtPieceApi}`);
+          console.log(`Date: ${dateDisplay}`);
+          console.log(`Artist: ${artistName}`);
+          console.log(`Image ID: ${imageId}`);
 
-var sampleQueryURL = "https://api.artic.edu/api/v1/artworks/search?q=Pencz";
+          // Append &fields to URL to limit results and speed up the response
+      
+        });
+    }
+  });
 
-fetch(artQueryURL)
-    .then(function (response){
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-        console.log(data.data[8].artist_title);
-        console.log(data.data[8].title);
-        //TODO: store "h", "s", "l" in an array, concatenate into a string, then try to turn into something more useful
-        console.log(data.data[8].color.h);
-        console.log(data.data[8].color.s);
-        console.log(data.data[8].color.l);
-        console.log(data.data[8].artwork_type_title);
-        console.log(data.data[8].image_id);
-        //console.log(data.data[8].technique_titles);
-        //console.log(data.data[8].style_titles);
-        console.log(data.data[8].date_display);
-    })
+//create element var hourLabel = document.createElement('div');
+//set attribute hourLabel.setAttribute("class", "hour-label");
+//append parentDomEl.append(hourLabel);
 
 var artworkTitle = "the starry night";
 
@@ -110,9 +122,8 @@ var infoQueryURL =
 // fetch(infoQueryURL)
 //   .then(function (response) {
 //     return response.json();
-//   }
+//   })
 //   .then(function (data) {
 //     console.log(data);
 //     console.log(data.query.pages[0].revisions[0].slots.main.content);
 //   });
-})
