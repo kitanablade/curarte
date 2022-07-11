@@ -68,17 +68,15 @@ function artistTitleSearch() {
       return response.json();
     })
     .then(function (artWorks) {
-      console.log(artWorks);
+      //console.log(artWorks);
       for (let i = 0; i < artWorks.data.length; i++) {
-        
-        
         var aicArtPieceApi = artWorks.data[i].api_link;
 
         const artPieceRequestFields = [
           "date_display",
           "artist_title",
           "image_id",
-          "title"
+          "title",
         ];
         aicArtPieceApi = aicArtPieceApi.concat(
           "?fields=",
@@ -91,12 +89,11 @@ function artistTitleSearch() {
             return response.json();
           })
           .then(function (artPiece) {
-            console.log(artPiece);
+            //console.log(artPiece);
             var artworkTitle = artPiece.data.title;
-            console.log(artworkTitle);
+            //console.log(artworkTitle);
             var dateDisplay = artPiece.data.date_display;
             var artistName = artPiece.data.artist_title;
-            var wikiArtistName = artistName.replaceAll(' ', '_');
             var imageId = artPiece.data.image_id;
             var configIii = artPiece.config.iiif_url;
             // kristen building image url
@@ -106,37 +103,67 @@ function artistTitleSearch() {
             var renderQueryImageURL =
               configIii + "/" + imageId + "/full/843,/0/default.jpg";
 
-            var infoQueryURL = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=${artworkTitle}&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*`;
-            console.log (`Wikipedia link: ${infoQueryURL}`);
-            
-            // Defaults to missing, and only gets populated if data is present
-            wikiDescription = "WIKIPEDIA DATA MISSING";
-            fetch(infoQueryURL)
+            // var infoQueryURL = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=${artworkTitle}&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*`;
+            // console.log (`Wikipedia link: ${infoQueryURL}`);
+
+            // // Defaults to missing, and only gets populated if data is present
+            // wikiDescription = "WIKIPEDIA DATA MISSING";
+            // fetch(infoQueryURL)
+            //   .then(function (response) {
+            //     return response.json();
+            //   })
+            //   .then(function (data) {
+            //     console.log(data);
+            //     if (data.query.pages[0].missing === true){
+            //       console.log(wikiDescription);
+            //     } else {
+            //       wikiDescription = data.query.pages[0].revisions[0].slots.main.content;
+            //     console.log(wikiDescription);
+            //   }
+            //   });
+
+            //var searchTerm = "starry night";
+            var wikiSearch = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${artworkTitle} ${artistName}&origin=*`;
+            fetch(wikiSearch)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              //console.log(data);
+              var wikiTitle = data.query.search[0].title;
+              //console.log(`WIKI Page Results: ${wikiTitle}`);
+              //console.log(data.query.pages[0].revisions[0].slots.main.content);
+              var wikiPageSection = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${wikiTitle}&formatversion=2&exsentences=10&exlimit=1&explaintext=1&origin=*`;
+              fetch(wikiPageSection)
               .then(function (response) {
                 return response.json();
               })
               .then(function (data) {
                 console.log(data);
-                if (data.query.pages[0].missing === true){
-                  console.log(wikiDescription);
-                } else {
-                  wikiDescription = data.query.pages[0].revisions[0].slots.main.content; 
-                console.log(wikiDescription);
-              }
+                //var summary = data.query.pages[0].revisions[0].slots.main.content;
+                //console.log(summary);
+                console.log(data.query.pages[0].extract);
               });
+              });
+
+            var searchTerm = "claude monet";
+            //var wikiRequest = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${searchTerm}&formatversion=2&exsentences=10&exlimit=1&explaintext=1&origin=*`;
+            //var mandela = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&pageid=6548&origin=*`;
+            //var wikiRequest = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${content}&origin=*`;
+            
 
             displayResults(
               artworkTitle,
               artistName,
               dateDisplay,
-              renderQueryImageURL,
-              wikiDescription
+              renderQueryImageURL
+              //wikiDescription
             );
-            console.log(`Title: ${artworkTitle}`);
-            console.log(`Link: ${aicArtPieceApi}`);
-            console.log(`Date: ${dateDisplay}`);
-            console.log(`Artist: ${artistName}`);
-            console.log(`Image ID: ${imageId}`);
+            // console.log(`Title: ${artworkTitle}`);
+            // console.log(`Link: ${aicArtPieceApi}`);
+            // console.log(`Date: ${dateDisplay}`);
+            // console.log(`Artist: ${artistName}`);
+            // console.log(`Image ID: ${imageId}`);
 
             // Append &fields to URL to limit results and speed up the response
           });
@@ -147,7 +174,7 @@ function artistTitleSearch() {
 //create element var hourLabel = document.createElement('div');
 //set attribute hourLabel.setAttribute("class", "hour-label");
 //append parentDomEl.append(hourLabel);
-function displayResults(title, artist, date, image, wikiDesc) {
+function displayResults(title, artist, date, image /*wikiDesc*/) {
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
   resultsCard += `<div class="col s12 m12 l12">`;
@@ -167,8 +194,8 @@ function displayResults(title, artist, date, image, wikiDesc) {
   resultsCard += `${date}`;
   resultsCard += `</h5>`;
   resultsCard += `<p>`;
-  resultsCard += `${wikiDesc}`;
-  resultsCard += `/<p>`;
+  //resultsCard += `${wikiDesc}`;
+  resultsCard += `<p>`;
   resultsCard += `</div>`;
   // resultsCard+=        `<div class="card-action">`
   // resultsCard+=          `<a href="http://www.freetimelearning.com" target="_blank" class="btn blue">Free Time Learn</a>`
