@@ -71,6 +71,10 @@ function artistTitleSearch() {
       console.log(artWorks);
       for (let i = 0; i < artWorks.data.length; i++) {
         var artworkTitle = artWorks.data[i].title;
+        console.log(`Raw Artwork Title: ${artworkTitle}`);
+        // Wikipedia version of artworkTitle since the api request requires underscores between search terms
+        var wikiArtTitle = artworkTitle.replaceAll(" ", "_");
+        console.log(`Fixed Wiki Title: ${wikiArtTitle}`);
         var aicArtPieceApi = artWorks.data[i].api_link;
 
         const artPieceRequestFields = [
@@ -92,6 +96,7 @@ function artistTitleSearch() {
             console.log(artPiece);
             var dateDisplay = artPiece.data.date_display;
             var artistName = artPiece.data.artist_title;
+            var wikiArtistName = artistName.replaceAll(' ', '_');
             var imageId = artPiece.data.image_id;
             var configIii = artPiece.config.iiif_url;
             // kristen building image url
@@ -100,14 +105,33 @@ function artistTitleSearch() {
 
             var renderQueryImageURL =
               configIii + "/" + imageId + "/full/843,/0/default.jpg";
-            // console.log(renderQueryImageURL);
 
+            var infoQueryURL = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=${artworkTitle}&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*`;
+            console.log (`Wikipedia link: ${infoQueryURL}`);
+            
+            // Defaults to missing, and only gets populated if data is present
+            wikiDescription = "WIKIPEDIA DATA MISSING";
+            fetch(infoQueryURL)
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                console.log(data);
+                if (data.query.pages[0].missing === true){
+                  console.log(wikiDescription);
+                } else {
+                  wikiDescription = data.query.pages[0].revisions[0].slots.main.content; 
+                console.log(wikiDescription);
+              }
+              });
 
-            //testing image rendering to card one
-            // var cardOne = document.querySelector(".activator");
-            // cardOne.setAttribute("src", renderQueryImageURL);
-
-            displayResults(artworkTitle, artistName,dateDisplay, renderQueryImageURL)
+            displayResults(
+              artworkTitle,
+              artistName,
+              dateDisplay,
+              renderQueryImageURL,
+              wikiDescription
+            );
             console.log(`Title: ${artworkTitle}`);
             console.log(`Link: ${aicArtPieceApi}`);
             console.log(`Date: ${dateDisplay}`);
@@ -123,26 +147,28 @@ function artistTitleSearch() {
 //create element var hourLabel = document.createElement('div');
 //set attribute hourLabel.setAttribute("class", "hour-label");
 //append parentDomEl.append(hourLabel);
-function displayResults(title, artist, date, image) {
+function displayResults(title, artist, date, image, wikiDesc) {
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
   resultsCard += `<div class="col s12 m12 l12">`;
   resultsCard += `<div class="card small horizontal">`;
-  resultsCard+=      `<div class="card-image">`
-  resultsCard+=        `<img src=${image}>`
-  resultsCard+=      `</div>`
+  resultsCard += `<div class="card-image">`;
+  resultsCard += `<img src=${image}>`;
+  resultsCard += `</div>`;
   resultsCard += `<div class="card-stacked">`;
   resultsCard += `<div class="card-content">`;
-  resultsCard += `<h3>`;
+  resultsCard += `<h5>`;
   resultsCard += `${title}`;
-  resultsCard += `</h3>`;
-  resultsCard += `<h3>`;
+  resultsCard += `</h5>`;
+  resultsCard += `<h5>`;
   resultsCard += `${artist}`;
   resultsCard += `</h5>`;
   resultsCard += `<h5>`;
   resultsCard += `${date}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5>`;
+  resultsCard += `<p>`;
+  resultsCard += `${wikiDesc}`;
+  resultsCard += `/<p>`;
   resultsCard += `</div>`;
   // resultsCard+=        `<div class="card-action">`
   // resultsCard+=          `<a href="http://www.freetimelearning.com" target="_blank" class="btn blue">Free Time Learn</a>`
@@ -154,14 +180,3 @@ function displayResults(title, artist, date, image) {
   $("#results-card-container").append(resultsCard);
 }
 var artworkTitle = "the starry night";
-
-var infoQueryURL =
-  "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=The_Starry_Night&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*";
-// fetch(infoQueryURL)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//     console.log(data);
-//     console.log(data.query.pages[0].revisions[0].slots.main.content);
-//   });
