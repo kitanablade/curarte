@@ -70,17 +70,15 @@ function artistTitleSearch() {
     .then(function (artWorks) {
       console.log(artWorks);
       for (let i = 0; i < artWorks.data.length; i++) {
-        var artworkTitle = artWorks.data[i].title;
-        console.log(`Raw Artwork Title: ${artworkTitle}`);
-        // Wikipedia version of artworkTitle since the api request requires underscores between search terms
-        var wikiArtTitle = artworkTitle.replaceAll(" ", "_");
-        console.log(`Fixed Wiki Title: ${wikiArtTitle}`);
+        
+        
         var aicArtPieceApi = artWorks.data[i].api_link;
 
         const artPieceRequestFields = [
           "date_display",
           "artist_title",
           "image_id",
+          "title"
         ];
         aicArtPieceApi = aicArtPieceApi.concat(
           "?fields=",
@@ -94,6 +92,8 @@ function artistTitleSearch() {
           })
           .then(function (artPiece) {
             console.log(artPiece);
+            var artworkTitle = artPiece.data.title;
+            console.log(artworkTitle);
             var dateDisplay = artPiece.data.date_display;
             var artistName = artPiece.data.artist_title;
             var wikiArtistName = artistName.replaceAll(' ', '_');
