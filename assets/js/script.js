@@ -157,10 +157,10 @@ function artistTitleSearch() {
                 // resultsCard+=      `</div>`
                 resultsCard+=      `<div class="card-stacked">`
                 resultsCard+=        `<div class="card-content">`
-                resultsCard+=        `<h3>`
+                resultsCard+=        `<h5>`
                 resultsCard+=        `${title}`
-                resultsCard+=        `</h3>`
-                resultsCard+=         `<h3>`
+                resultsCard+=        `</h5>`
+                resultsCard+=         `<h5>`
                 resultsCard+=          `${artist}`
                 resultsCard+=        `</h5>`
                 resultsCard+=        `<h5>`
@@ -182,11 +182,11 @@ var artworkTitle = "the starry night";
 
 var infoQueryURL =
   "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=The_Starry_Night&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*";
-// fetch(infoQueryURL)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//     console.log(data);
-//     console.log(data.query.pages[0].revisions[0].slots.main.content);
-//   });
+fetch(infoQueryURL)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+    console.log(data.query.pages[0].revisions[0].slots.main.content);
+  });
