@@ -179,4 +179,3 @@ function displayResults(title, artist, date, image, wikiDesc) {
   resultsCard += `</div>`;
   $("#results-card-container").append(resultsCard);
 }
-var artworkTitle = "the starry night";
