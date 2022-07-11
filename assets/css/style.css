@@ -12,16 +12,13 @@ nav{
 }
 
 .card-panel {
+
  width:400px;
 
 height: 100px;
 
-
-
-
 position: relative;
-margin-top: 400px;
-
+margin-top: 300px;
 background:  rgba(0,0,0,0.2);
 color: white;
 }
@@ -33,11 +30,28 @@ color: white;
 
 .btn-block {
     width: 100%;
-    
+    height: 50px;
     background:  rgba(0,0,0,0.2);
 }
 
 .modal-btn:hover {
     filter: brightness(200%);
     background: rgba(0,0,0,0.8);
+  }
+  
+  h4{
+    color: black;
+  }
+ 
+
+  /*Events page*/
+  .events-card{
+    position: absolute;
+    margin-top: 500px;
+  }
+  .horizontal{
+    
+  
+    margin-left : 50px;
+    margin-right: 50px;
   }

@@ -4,9 +4,10 @@ $(document).ready(function () {
 });
 
 /*AK- HTML- Materialize framework design */
-$(document).ready(function () {
-  $(".slider").slider({
-    height: 500, // default - height : 400
+$(document).ready(function(){
+  $('.slider').slider({
+    height : 400, // default - height : 400
+       
   });
 });
 
