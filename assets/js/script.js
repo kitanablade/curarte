@@ -2,13 +2,13 @@
 //AK- HTML- Materialize framework design
 $(document).ready(function () {
   $(".slider").slider();
-
+});
 
 
 /*AK- HTML- Materialize framework design */
 $(document).ready(function(){
   $('.slider').slider({
-    height : 500, // default - height : 400
+    height : 400, // default - height : 400
        
   });
 });
@@ -44,6 +44,13 @@ $(document).ready(function(){
 $(document).ready(function() {
   $('input#input_text, textarea#textarea2').characterCounter();
 });
+
+$(document).ready(function(){
+  $('.parallax').parallax();
+});
+
+
+
 
 
 /*KW- Please add your queries for fuctionalities */
