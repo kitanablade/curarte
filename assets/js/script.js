@@ -20,8 +20,12 @@ $(document).ready(function () {
   });
 });
 
+// Upon modal load, focus the mouse on the text entry field
 $(document).ready(function () {
-  $(".modal").modal();
+  $(".modal").modal({
+    onOpenEnd: function() {
+        $('#modal-srch-txt-field').focus();
+    }});
 });
 
 $(document).ready(function () {
@@ -52,10 +56,10 @@ $(document).ready(function () {
 // TODO: Inside each function, a separate function will query the Wikipedia API, choose the top/best entry, and generate a <p> DOM element
 
 //Replace hard-coded variable with listen event
-document.getElementById("modal-form-src-btn").onclick = artistTitleSearch;
+document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
 
 function artistTitleSearch() {
-  var userTextInput = document.getElementById("modal-src-txt-field").value;
+  var userTextInput = document.getElementById("modal-srch-txt-field").value;
   var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
 
@@ -133,29 +137,11 @@ function artistTitleSearch() {
                 );
               });
               });
-
-            var searchTerm = "claude monet";
-            //var wikiRequest = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${searchTerm}&formatversion=2&exsentences=10&exlimit=1&explaintext=1&origin=*`;
-            //var mandela = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&pageid=6548&origin=*`;
-            //var wikiRequest = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${content}&origin=*`;
-            
-
-            
-            // console.log(`Title: ${artworkTitle}`);
-            // console.log(`Link: ${aicArtPieceApi}`);
-            // console.log(`Date: ${dateDisplay}`);
-            // console.log(`Artist: ${artistName}`);
-            // console.log(`Image ID: ${imageId}`);
-
-            // Append &fields to URL to limit results and speed up the response
           });
       }
     });
 } // End artistTitleSearch()
 
-//create element var hourLabel = document.createElement('div');
-//set attribute hourLabel.setAttribute("class", "hour-label");
-//append parentDomEl.append(hourLabel);
 function displayResults(title, artist, date, image, wikiDesc) {
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
