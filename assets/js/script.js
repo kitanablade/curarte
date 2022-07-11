@@ -4,10 +4,9 @@ $(document).ready(function () {
 });
 
 /*AK- HTML- Materialize framework design */
-$(document).ready(function(){
-  $('.slider').slider({
-    height : 400, // default - height : 400
-       
+$(document).ready(function () {
+  $(".slider").slider({
+    height: 400, // default - height : 400
   });
 });
 
@@ -55,68 +54,105 @@ $(document).ready(function () {
 //Replace hard-coded variable with listen event
 document.getElementById("modal-form-src-btn").onclick = artistTitleSearch;
 
-function artistTitleSearch(){
-var userTextInput = document.getElementById("modal-src-txt-field").value;
-var maxResultsDisplay = 5;
-const aicSearchRequestFields = ["title", "api_link"];
-      
-var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
-aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
+function artistTitleSearch() {
+  var userTextInput = document.getElementById("modal-src-txt-field").value;
+  var maxResultsDisplay = 5;
+  const aicSearchRequestFields = ["title", "api_link"];
 
-// Get all the artworks by the artist, or artworks matching artwork title
-fetch(aicSearchApi)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (artWorks) {
+  var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
+  aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
-    console.log(artWorks);
-    for (let i = 0; i < artWorks.data.length; i++) {
-      var artworkTitle = artWorks.data[i].title;
-      var aicArtPieceApi = artWorks.data[i].api_link;
-      
-      const artPieceRequestFields = ["date_display", "artist_title", "image_id"];
-      aicArtPieceApi = aicArtPieceApi.concat("?fields=", artPieceRequestFields);
+  // Get all the artworks by the artist, or artworks matching artwork title
+  fetch(aicSearchApi)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (artWorks) {
+      console.log(artWorks);
+      for (let i = 0; i < artWorks.data.length; i++) {
+        var artworkTitle = artWorks.data[i].title;
+        var aicArtPieceApi = artWorks.data[i].api_link;
 
-      // Get the data for the individual artworks using the api_link returned from the first request search by artist
-      fetch(aicArtPieceApi)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (artPiece) {
-          console.log(artPiece);
-          var dateDisplay = artPiece.data.date_display;
-          var artistName = artPiece.data.artist_title;
-          var imageId = artPiece.data.image_id;
-          var configIii = data.config.iiif_url;
-// kristen building image url
-// img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
-// region=full THEN size=843, THEN rotation=0 THEN quality=default THEN format=png)
+        const artPieceRequestFields = [
+          "date_display",
+          "artist_title",
+          "image_id",
+        ];
+        aicArtPieceApi = aicArtPieceApi.concat(
+          "?fields=",
+          artPieceRequestFields
+        );
 
-var renderQueryImageURL = configIii + "/" + imageID + "/full/843,/0/default.jpg";
-console.log(renderQueryImageURL);
-//testing image rendering to card one
-// var cardOne = document.querySelector(".activator");
-// cardOne.setAttribute("src", renderQueryImageURL);
+        // Get the data for the individual artworks using the api_link returned from the first request search by artist
+        fetch(aicArtPieceApi)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (artPiece) {
+            console.log(artPiece);
+            var dateDisplay = artPiece.data.date_display;
+            var artistName = artPiece.data.artist_title;
+            var imageId = artPiece.data.image_id;
+            var configIii = artPiece.config.iiif_url;
+            // kristen building image url
+            // img sizing !w,h for best-fit scaling so that w/h are <= requested width and height. dimensions of returned content are calculated to maintain the aspect ratio of the extracted region
+            // region=full THEN size=843, THEN rotation=0 THEN quality=default THEN format=png)
+
+            var renderQueryImageURL =
+              configIii + "/" + imageId + "/full/843,/0/default.jpg";
+            // console.log(renderQueryImageURL);
 
 
-          console.log(`Title: ${artworkTitle}`);
-          console.log(`Link: ${aicArtPieceApi}`);
-          console.log(`Date: ${dateDisplay}`);
-          console.log(`Artist: ${artistName}`);
-          console.log(`Image ID: ${imageId}`);
+            //testing image rendering to card one
+            // var cardOne = document.querySelector(".activator");
+            // cardOne.setAttribute("src", renderQueryImageURL);
 
-          // Append &fields to URL to limit results and speed up the response
-      
-        });
-    }
-  });
-}// End artistTitleSearch()
+            displayResults(artworkTitle, artistName,dateDisplay, renderQueryImageURL)
+            console.log(`Title: ${artworkTitle}`);
+            console.log(`Link: ${aicArtPieceApi}`);
+            console.log(`Date: ${dateDisplay}`);
+            console.log(`Artist: ${artistName}`);
+            console.log(`Image ID: ${imageId}`);
+
+            // Append &fields to URL to limit results and speed up the response
+          });
+      }
+    });
+} // End artistTitleSearch()
 
 //create element var hourLabel = document.createElement('div');
 //set attribute hourLabel.setAttribute("class", "hour-label");
 //append parentDomEl.append(hourLabel);
-
+function displayResults(title, artist, date, image) {
+  let resultsCard = "";
+  resultsCard += `<div class="row events-card-data">`;
+  resultsCard += `<div class="col s12 m12 l12">`;
+  resultsCard += `<div class="card small horizontal">`;
+  resultsCard+=      `<div class="card-image">`
+  resultsCard+=        `<img src=${image}>`
+  resultsCard+=      `</div>`
+  resultsCard += `<div class="card-stacked">`;
+  resultsCard += `<div class="card-content">`;
+  resultsCard += `<h3>`;
+  resultsCard += `${title}`;
+  resultsCard += `</h3>`;
+  resultsCard += `<h3>`;
+  resultsCard += `${artist}`;
+  resultsCard += `</h5>`;
+  resultsCard += `<h5>`;
+  resultsCard += `${date}`;
+  resultsCard += `</h5>`;
+  resultsCard += `<h5>`;
+  resultsCard += `</div>`;
+  // resultsCard+=        `<div class="card-action">`
+  // resultsCard+=          `<a href="http://www.freetimelearning.com" target="_blank" class="btn blue">Free Time Learn</a>`
+  // resultsCard+=         `</div>`
+  resultsCard += `</div>`;
+  resultsCard += `</div>`;
+  resultsCard += `</div>`;
+  resultsCard += `</div>`;
+  $("#results-card-container").append(resultsCard);
+}
 var artworkTitle = "the starry night";
 
 var infoQueryURL =
