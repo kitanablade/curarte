@@ -5,6 +5,9 @@ nav{
     background:  rgba(0,0,0,0.2);
     padding: 0;
 }
+nav .brand-logo{
+  font-size: 4.1rem;
+}
 .slider{
   position: absolute;
     z-index: -1;
@@ -67,3 +70,6 @@ color: white;
     margin-left : 50px;
     margin-right: 50px;
   }
+ul li {
+  font-size: 24px;
+}
