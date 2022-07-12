@@ -54,17 +54,24 @@ $("#modal-srch-txt-field").keypress(function(event){
   }
 })
 document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
+const searchBtn = document.getElementById("modal-form-srch-btn");
+// Flip search modal SEARCH/RESET button text and funcitonality
+searchBtn.onclick = function(){
+  if (searchBtn.innerText === "SEARCH") {
+    artistTitleSearch();
+  } else {
+    $("#results-card-container").html("");
+    searchBtn.innerText = "SEARCH";
+    $("#modal-srch-txt-field").focus();
+    document.getElementById("modal-srch-txt-field").value = "";
+  }
+};
 
 function artistTitleSearch() {
+  searchBtn.innerText = "RESET";
   var userTextInput = document.getElementById("modal-srch-txt-field").value;
- //Ak- changing the scope of maxResultsDisplay variable by moving it outside the function to use the variable in other functions s well
-  // var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
   saveBtnFlag = true;
-
-  // Limit search results URL:
-  //var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
-  // No-Limit search results URL:
   var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
   aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
@@ -94,6 +101,7 @@ function artistTitleSearch() {
           "image_id",
           "title",
         ];
+
         aicArtPieceApi = aicArtPieceApi.concat(
           "?fields=",
           artPieceRequestFields
@@ -207,10 +215,13 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   resultsCard += `${date}`;
 
   resultsCard += `</h5>`;
+  // Only display the Save To List button if there are results to save
+  if (saveBtnFlag){
   resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
   resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
   resultsCard += `</strong>`;
   resultsCard += `</button>`;
+  }
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
   resultsCard += `</p>`;
