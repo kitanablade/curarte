@@ -33,6 +33,7 @@
           <li><a href="#index.html">Home</a></li>
           <li><a href="#src-modal-btn">Search</a></li>
           <li><a href="#my_gallery" id="myCollection">My Collection</a></li>
+
           <li><a href="./assets/html/events.html" target="_blank">Events</a></li>
                <!-- Modal Trigger for contact details-->
      
@@ -120,10 +121,10 @@
 <div class="card-panel  input-field col s6 offset-s3 valign">
    <!-- Modal Trigger -->
    <div class="center-align ">
-   <a id="src-modal-btn" class="waves-effect waves-light btn btn-block modal-trigger modal-btn" href="#modalSearch"><i class="material-icons center-align search-icon">search</i>     Search </a>
+   <a id="srch-modal-btn" class="waves-effect waves-light btn btn-block modal-trigger modal-btn" href="#modalSearch"><i class="material-icons center-align search-icon">search</i>     Search </a>
   </div>
    <div id="modalSearch" class="modal">
-    <div class="modal-content">
+    <div id="srch-modal" class="modal-content">
       <h4>CurARTe</h4>
       <select class="icons" id="search">
         <option value="" disabled selected>Your Search Criteria</option>
@@ -139,14 +140,14 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s12">
-              <input placeholder="Search" id="modal-src-txt-field" type="text" class="search">
+              <input placeholder="Search" id="modal-srch-txt-field" type="text" class="search">
               <label for="search">Search</label>
             </div>
           </div>
           </form>
           </div>
           <div class="center-align">
-      <a id="modal-form-src-btn" class="waves-effect waves-light center-align btn">Search</a>
+      <a id="modal-form-srch-btn" class="waves-effect waves-light center-align btn">Search</a>
       <div id="results-card-container"></div>
     </div>       
     </div>
