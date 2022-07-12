@@ -181,30 +181,35 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
   resultsCard += `<div class="col s12 m12 l12">`;
-  resultsCard += `<div class="card small horizontal">`;
+  resultsCard += `<div class="card xlarge horizontal">`;
   resultsCard += `<div class="card-image">`;
   resultsCard += `<img src=${image} id="image${elementIdNum}">`;
   resultsCard += `</div>`;
   resultsCard += `<div class="card-stacked">`;
   resultsCard += `<div class="card-content">`;
-  resultsCard += `<h5 id="title${elementIdNum}">`;
+  resultsCard += `<h5 class="font-weight:bold" id="title${elementIdNum}">`;
   resultsCard += `${title}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5 id="artist${elementIdNum}">`;
+  resultsCard += `<h6 id="artist${elementIdNum}">`;
   resultsCard += `${artist}`;
-  resultsCard += `</h5>`;
-  resultsCard += `<h5 id="date${elementIdNum}">`;
+  resultsCard += `</h6>`;
+  resultsCard += `<h6 id="date${elementIdNum}">`;
   resultsCard += `${date}`;
+
   resultsCard += `</h5>`;
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
   resultsCard += `</p>`;
+  resultsCard += `</h6>`;
   if (saveBtnFlag){
   resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
   resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
   resultsCard += `</strong>`;
   resultsCard += `</button>`;
   }
+  resultsCard += `<p id="wikiDesc${elementIdNum}">`;
+  resultsCard += `${wikiDesc}`;
+  resultsCard += `</p>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
