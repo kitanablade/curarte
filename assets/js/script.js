@@ -197,19 +197,16 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   resultsCard += `${date}`;
 
   resultsCard += `</h5>`;
+  resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
+  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
+  resultsCard += `</strong>`;
+  resultsCard += `</button>`;
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
   resultsCard += `</p>`;
   resultsCard += `</h6>`;
   if (saveBtnFlag){
-  resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
-  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
-  resultsCard += `</strong>`;
-  resultsCard += `</button>`;
   }
-  resultsCard += `<p id="wikiDesc${elementIdNum}">`;
-  resultsCard += `${wikiDesc}`;
-  resultsCard += `</p>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
