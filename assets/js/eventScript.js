@@ -54,7 +54,8 @@ $(document).ready(function () {
 /*Ak-  */
 /*Meme api */
 var akartQueryURL = "http://api.harvardartmuseums.org";
-const APIEndpoint="https://api.imgflip.com/get_memes";
+pg=69;
+const APIEndpoint=`https://api.artic.edu/api/v1/products?page=${pg}&search?q=art`;
 const PAGE_SIZE = 194;
 var info=""
 var imageID="";
@@ -68,7 +69,7 @@ fetch(APIEndpoint)
     .then(function (data) {
        console.log(data);
         
-    });
+    });/*
     $(document).ready(function () {
 			
         $('#main-logo').click(function(){
@@ -116,7 +117,7 @@ fetch(APIEndpoint)
 
 */
 
-        var eventQueryURL = "https://api.artic.edu/api/v1/events?page=193";
+        var eventQueryURL = "https://api.artic.edu/api/v1/events?search?q=art";
         for(let i=0;i<12;i++)
         {
 fetch(eventQueryURL)
@@ -124,11 +125,11 @@ fetch(eventQueryURL)
         return response.json();
     })
     .then(function (data) {
-        console.log(data);
+      //  console.log(data);
     
 
     
-        info=(data.data[i].description);
+        info=(data.data[i].short_description);
         title=data.data[i].program_titles[0];
         imageID=(data.data[i].image_url);
         if((data.data[i].image_url)!=null)

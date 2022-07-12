@@ -20,8 +20,12 @@ $(document).ready(function () {
   });
 });
 
+// Upon modal load, focus the mouse on the text entry field
 $(document).ready(function () {
-  $(".modal").modal();
+  $(".modal").modal({
+    onOpenEnd: function() {
+        $('#modal-srch-txt-field').focus();
+    }});
 });
 
 $(document).ready(function () {
@@ -52,10 +56,10 @@ $(document).ready(function () {
 // TODO: Inside each function, a separate function will query the Wikipedia API, choose the top/best entry, and generate a <p> DOM element
 
 //Replace hard-coded variable with listen event
-document.getElementById("modal-form-src-btn").onclick = artistTitleSearch;
+document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
 
 function artistTitleSearch() {
-  var userTextInput = document.getElementById("modal-src-txt-field").value;
+  var userTextInput = document.getElementById("modal-srch-txt-field").value;
   var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
 
@@ -68,19 +72,15 @@ function artistTitleSearch() {
       return response.json();
     })
     .then(function (artWorks) {
-      console.log(artWorks);
+      //console.log(artWorks);
       for (let i = 0; i < artWorks.data.length; i++) {
-        var artworkTitle = artWorks.data[i].title;
-        console.log(`Raw Artwork Title: ${artworkTitle}`);
-        // Wikipedia version of artworkTitle since the api request requires underscores between search terms
-        var wikiArtTitle = artworkTitle.replaceAll(" ", "_");
-        console.log(`Fixed Wiki Title: ${wikiArtTitle}`);
         var aicArtPieceApi = artWorks.data[i].api_link;
 
         const artPieceRequestFields = [
           "date_display",
           "artist_title",
           "image_id",
+          "title",
         ];
         aicArtPieceApi = aicArtPieceApi.concat(
           "?fields=",
@@ -93,10 +93,11 @@ function artistTitleSearch() {
             return response.json();
           })
           .then(function (artPiece) {
-            console.log(artPiece);
+            //console.log(artPiece);
+            var artworkTitle = artPiece.data.title;
+            //console.log(artworkTitle);
             var dateDisplay = artPiece.data.date_display;
             var artistName = artPiece.data.artist_title;
-            var wikiArtistName = artistName.replaceAll(' ', '_');
             var imageId = artPiece.data.image_id;
             var configIii = artPiece.config.iiif_url;
             // kristen building image url
@@ -106,32 +107,65 @@ function artistTitleSearch() {
             var renderQueryImageURL =
               configIii + "/" + imageId + "/full/843,/0/default.jpg";
 
-            var infoQueryURL = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=${artworkTitle}&formatversion=2&rvprop=content&rvslots=*&rvsection=0&origin=*`;
-            console.log (`Wikipedia link: ${infoQueryURL}`);
-            
-            // Defaults to missing, and only gets populated if data is present
-            wikiDescription = "WIKIPEDIA DATA MISSING";
-            fetch(infoQueryURL)
+            var wikiSearch = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${artworkTitle} ${artistName}&origin=*`;
+            fetch(wikiSearch)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              //console.log(data);
+              var wikiTitle = data.query.search[0].title;
+              //console.log(`WIKI Page Results: ${wikiTitle}`);
+              //console.log(data.query.pages[0].revisions[0].slots.main.content);
+              var wikiPageSection = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${wikiTitle}&formatversion=2&exsentences=10&exlimit=1&explaintext=1&origin=*`;
+              fetch(wikiPageSection)
               .then(function (response) {
                 return response.json();
               })
               .then(function (data) {
                 console.log(data);
-                if (data.query.pages[0].missing === true){
-                  console.log(wikiDescription);
-                } else {
-                  wikiDescription = data.query.pages[0].revisions[0].slots.main.content; 
+                //var summary = data.query.pages[0].revisions[0].slots.main.content;
+                //console.log(summary);
+                var wikiDescription = data.query.pages[0].extract;
                 console.log(wikiDescription);
-              }
+                displayResults(
+                  artworkTitle,
+                  artistName,
+                  dateDisplay,
+                  renderQueryImageURL,
+                  wikiDescription
+                );
               });
+              });
+
 
             displayResults(
               artworkTitle,
               artistName,
               dateDisplay,
               renderQueryImageURL,
-              wikiDescription
+              wikiDescription,i
             );
+           
+            //Ak- Saving the button event to local storage
+
+  $(`#button${i}`).on("click",  function () {  
+    console.log("Ak test");
+    var buttonID= (`button${i}`);
+    var imageID= $(`#image${i}`).attr("src");
+    
+    var titleID= $(`#title${i}`).html();
+    
+    var artistID= $(`#artist${i}`).html();
+    var dateID= $(`#date${i}`).html();
+    var wikiDescID= $(`#wikiDesc${i}`).html();
+    var lscard_details=[buttonID,imageID,titleID,artistID,dateID,wikiDescID];
+    console.log(lscard_details);
+    localStorage.setItem(`ls_cardInfo${i}`,JSON.stringify(lscard_details));
+
+  console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
+  });
+
             console.log(`Title: ${artworkTitle}`);
             console.log(`Link: ${aicArtPieceApi}`);
             console.log(`Date: ${dateDisplay}`);
@@ -141,34 +175,48 @@ function artistTitleSearch() {
             // Append &fields to URL to limit results and speed up the response
           });
       }
+  
+  
+
+
     });
+    
+
+
+
+
 } // End artistTitleSearch()
 
-//create element var hourLabel = document.createElement('div');
-//set attribute hourLabel.setAttribute("class", "hour-label");
-//append parentDomEl.append(hourLabel);
+//AK- added vriable i to keep track of dom element ids
+//AK- added ids for the dom elements
+
 function displayResults(title, artist, date, image, wikiDesc) {
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
   resultsCard += `<div class="col s12 m12 l12">`;
   resultsCard += `<div class="card small horizontal">`;
   resultsCard += `<div class="card-image">`;
-  resultsCard += `<img src=${image}>`;
+  resultsCard += `<img src=${image} id="image${i}">`;
   resultsCard += `</div>`;
   resultsCard += `<div class="card-stacked">`;
   resultsCard += `<div class="card-content">`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="title${i}">`;
   resultsCard += `${title}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="artist${i}">`;
   resultsCard += `${artist}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="date${i}">`;
   resultsCard += `${date}`;
   resultsCard += `</h5>`;
-  resultsCard += `<p>`;
+  resultsCard += `<p id="wikiDesc${i}">`;
   resultsCard += `${wikiDesc}`;
-  resultsCard += `/<p>`;
+
+  resultsCard += `</p>`;
+  resultsCard += `<button class="btn saveBtn col-md-1" id="button${i}">`;
+  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
+  resultsCard += `</strong>`;
+  resultsCard += `</button>`;
   resultsCard += `</div>`;
   // resultsCard+=        `<div class="card-action">`
   // resultsCard+=          `<a href="http://www.freetimelearning.com" target="_blank" class="btn blue">Free Time Learn</a>`
@@ -178,4 +226,36 @@ function displayResults(title, artist, date, image, wikiDesc) {
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   $("#results-card-container").append(resultsCard);
+
+
+  
 }
+  
+
+//AK- Displaying the saved gallery using localstorage varibles
+var card_gallery=[];
+$("#myCollection").on("click",function(){
+  
+
+      card_gallery =localStorage.getItem(`ls_cardInfo1`);
+
+   
+   //var res1=res.slice(",");
+   console.log(card_gallery);
+
+   var res=card_gallery.split(`","`);
+   console.log(res[0]);
+   console.log(res[1]);
+   console.log(res[2]);
+   console.log(res[3]);
+   console.log(res[4]);
+   console.log(res[5]);
+   
+
+   $("#img1").attr('src',res[1]); 
+   $("#title").html(res[3]); 
+   $("#info").html(res[2]); 
+   $("#wikiData").html(res[5]); 
+  
+  
+});
