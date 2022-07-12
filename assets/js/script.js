@@ -44,6 +44,16 @@ $(document).ready(function () {
   $("input#input_text, textarea#textarea2").characterCounter();
 });
 
+
+var maxResultsDisplay=5;
+
+$("#modal-srch-txt-field").keypress(function(event){
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    artistTitleSearch();
+  }
+})
+document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
 const searchBtn = document.getElementById("modal-form-srch-btn");
 // Flip search modal SEARCH/RESET button text and funcitonality
 searchBtn.onclick = function(){
