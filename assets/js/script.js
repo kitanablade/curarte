@@ -137,10 +137,58 @@ function artistTitleSearch() {
                 );
               });
               });
+
+
+            displayResults(
+              artworkTitle,
+              artistName,
+              dateDisplay,
+              renderQueryImageURL,
+              wikiDescription,i
+            );
+           
+            //Ak- Saving the button event to local storage
+
+  $(`#button${i}`).on("click",  function () {  
+    console.log("Ak test");
+    var buttonID= (`button${i}`);
+    var imageID= $(`#image${i}`).attr("src");
+    
+    var titleID= $(`#title${i}`).html();
+    
+    var artistID= $(`#artist${i}`).html();
+    var dateID= $(`#date${i}`).html();
+    var wikiDescID= $(`#wikiDesc${i}`).html();
+    var lscard_details=[buttonID,imageID,titleID,artistID,dateID,wikiDescID];
+    console.log(lscard_details);
+    localStorage.setItem(`ls_cardInfo${i}`,JSON.stringify(lscard_details));
+
+  console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
+  });
+
+            console.log(`Title: ${artworkTitle}`);
+            console.log(`Link: ${aicArtPieceApi}`);
+            console.log(`Date: ${dateDisplay}`);
+            console.log(`Artist: ${artistName}`);
+            console.log(`Image ID: ${imageId}`);
+
+            // Append &fields to URL to limit results and speed up the response
           });
       }
+  
+  
+
+
     });
+    
+
+
+
+
 } // End artistTitleSearch()
+
+//AK- added vriable i to keep track of dom element ids
+//AK- added ids for the dom elements
 
 function displayResults(title, artist, date, image, wikiDesc) {
   let resultsCard = "";
@@ -148,22 +196,27 @@ function displayResults(title, artist, date, image, wikiDesc) {
   resultsCard += `<div class="col s12 m12 l12">`;
   resultsCard += `<div class="card small horizontal">`;
   resultsCard += `<div class="card-image">`;
-  resultsCard += `<img src=${image}>`;
+  resultsCard += `<img src=${image} id="image${i}">`;
   resultsCard += `</div>`;
   resultsCard += `<div class="card-stacked">`;
   resultsCard += `<div class="card-content">`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="title${i}">`;
   resultsCard += `${title}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="artist${i}">`;
   resultsCard += `${artist}`;
   resultsCard += `</h5>`;
-  resultsCard += `<h5>`;
+  resultsCard += `<h5 id="date${i}">`;
   resultsCard += `${date}`;
   resultsCard += `</h5>`;
-  resultsCard += `<p>`;
+  resultsCard += `<p id="wikiDesc${i}">`;
   resultsCard += `${wikiDesc}`;
-  resultsCard += `<p>`;
+
+  resultsCard += `</p>`;
+  resultsCard += `<button class="btn saveBtn col-md-1" id="button${i}">`;
+  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
+  resultsCard += `</strong>`;
+  resultsCard += `</button>`;
   resultsCard += `</div>`;
   // resultsCard+=        `<div class="card-action">`
   // resultsCard+=          `<a href="http://www.freetimelearning.com" target="_blank" class="btn blue">Free Time Learn</a>`
@@ -173,4 +226,36 @@ function displayResults(title, artist, date, image, wikiDesc) {
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   $("#results-card-container").append(resultsCard);
+
+
+  
 }
+  
+
+//AK- Displaying the saved gallery using localstorage varibles
+var card_gallery=[];
+$("#myCollection").on("click",function(){
+  
+
+      card_gallery =localStorage.getItem(`ls_cardInfo1`);
+
+   
+   //var res1=res.slice(",");
+   console.log(card_gallery);
+
+   var res=card_gallery.split(`","`);
+   console.log(res[0]);
+   console.log(res[1]);
+   console.log(res[2]);
+   console.log(res[3]);
+   console.log(res[4]);
+   console.log(res[5]);
+   
+
+   $("#img1").attr('src',res[1]); 
+   $("#title").html(res[3]); 
+   $("#info").html(res[2]); 
+   $("#wikiData").html(res[5]); 
+  
+  
+});

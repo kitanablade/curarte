@@ -54,7 +54,8 @@ $(document).ready(function () {
 /*Ak-  */
 /*Meme api */
 var akartQueryURL = "http://api.harvardartmuseums.org";
-const APIEndpoint="https://api.artic.edu/api/v1/products";
+pg=69;
+const APIEndpoint=`https://api.artic.edu/api/v1/products?page=${pg}&search?q=art`;
 const PAGE_SIZE = 194;
 var info=""
 var imageID="";
@@ -116,7 +117,7 @@ fetch(APIEndpoint)
 
 */
 
-        var eventQueryURL = "https://api.artic.edu/api/v1/events?page=193";
+        var eventQueryURL = "https://api.artic.edu/api/v1/events?search?q=art";
         for(let i=0;i<12;i++)
         {
 fetch(eventQueryURL)
