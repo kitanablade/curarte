@@ -50,8 +50,12 @@ function artistTitleSearch() {
   var userTextInput = document.getElementById("modal-srch-txt-field").value;
   var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
+  saveBtnFlag = true;
 
-  var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
+  // Limit search results URL:
+  //var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
+  // No-Limit search results URL:
+  var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
   aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
   // Get all the artworks by the artist, or artworks matching artwork title
@@ -60,7 +64,17 @@ function artistTitleSearch() {
       return response.json();
     })
     .then(function (artWorks) {
-      //console.log(artWorks);
+      console.log(artWorks);
+      if (artWorks.data.length == 0){
+        displayResults(
+                      artworkTitle = "We're sorry, there are no results for this search.",
+                      artistName = "",
+                      dateDisplay = "",
+                      renderQueryImageURL = "./assets/images/the_scream.jpg",
+                      wikiDescription = "",
+                      elementIdNum = 0,
+                      saveBtnFlag = false
+    )}
       for (let i = 0; i < artWorks.data.length; i++) {
         var aicArtPieceApi = artWorks.data[i].api_link;
 
@@ -105,10 +119,7 @@ function artistTitleSearch() {
                     return response.json();
                   })
                   .then(function (data) {
-                    console.log(data);
                     var wikiDescription = data.query.pages[0].extract;
-                    console.log(wikiDescription);
-
                     elementIdNum = i;
 
                     displayResults(
@@ -117,7 +128,8 @@ function artistTitleSearch() {
                       dateDisplay,
                       renderQueryImageURL,
                       wikiDescription,
-                      elementIdNum
+                      elementIdNum,
+                      saveBtnFlag
                     );
                   });
               });
@@ -149,12 +161,6 @@ function artistTitleSearch() {
               console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
             });
 
-            console.log(`Title: ${artworkTitle}`);
-            console.log(`Link: ${aicArtPieceApi}`);
-            console.log(`Date: ${dateDisplay}`);
-            console.log(`Artist: ${artistName}`);
-            console.log(`Image ID: ${imageId}`);
-
             // Append &fields to URL to limit results and speed up the response
           });
       }
@@ -164,7 +170,10 @@ function artistTitleSearch() {
 //AK- added vriable i to keep track of dom element ids
 //AK- added ids for the dom elements
 
-function displayResults(title, artist, date, image, wikiDesc, elementIdNum) {
+function displayResults(title, artist, date, image, wikiDesc, elementIdNum, saveBtnFlag) {
+  // if (imgage==null){
+  //   saveBtnFlag = false;
+  // }
   let resultsCard = "";
   resultsCard += `<div class="row events-card-data">`;
   resultsCard += `<div class="col s12 m12 l12">`;
@@ -185,12 +194,13 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum) {
   resultsCard += `</h5>`;
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
-
   resultsCard += `</p>`;
+  if (saveBtnFlag){
   resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
   resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
   resultsCard += `</strong>`;
   resultsCard += `</button>`;
+  }
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
