@@ -199,7 +199,8 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   resultsCard += `</h6>`;
   resultsCard += `<h6 id="date${elementIdNum}">`;
   resultsCard += `${date}`;
-  resultsCard += `</h6>`;
+
+  resultsCard += `</h5>`;
   resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
   resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
   resultsCard += `</strong>`;
