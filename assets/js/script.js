@@ -44,11 +44,15 @@ $(document).ready(function () {
   $("input#input_text, textarea#textarea2").characterCounter();
 });
 
+
+var maxResultsDisplay=5;
+
 document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
 
 function artistTitleSearch() {
   var userTextInput = document.getElementById("modal-srch-txt-field").value;
-  var maxResultsDisplay = 5;
+ //Ak- changing the scope of maxResultsDisplay variable by moving it outside the function to use the variable in other functions s well
+  // var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
 
   var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
@@ -202,12 +206,43 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum) {
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
 $("#myCollection").on("click", function () {
-  card_gallery = localStorage.getItem(`ls_cardInfo1`);
+  for(var i=0;i<maxResultsDisplay;i++)
+  {
+    card_gallery.push(localStorage.getItem(`ls_cardInfo${i}`));
+  }
 
+  var galleryCard= [];
+  for(var i=0;i<5;i++)
+  {
+
+    var dataToSave=card_gallery[i];
+    galleryCard=dataToSave.split(`","`);
+    var resultsCard="";
+    
+   
+    resultsCard +=`<div class="col l3 m4 s12">`
+    resultsCard +=`<div class="card medium sticky-action">`
+    resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
+    resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
+    resultsCard +=`</div>`
+    resultsCard +=`<div class="card-content">`
+    resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
+    resultsCard +=`<p id="info"><a href="#">This is a link</a>${galleryCard[2]}</p>`
+    resultsCard +=`</div>`
+    resultsCard +=`<div class="card-reveal">`
+    resultsCard +=`<span class="card-title grey-text text-darken-4" ><i class="material-icons right">close</i><p id="title"></p></span>`
+    resultsCard +=`<p id="wikiData">${galleryCard[5]}</p>`
+    resultsCard +=`</div>`
+    resultsCard += `</div>`
+    resultsCard += `</div>`
+    
+    $("#my_gallery").append(resultsCard);
+  }
   //var res1=res.slice(",");
   console.log(card_gallery);
 
-  var res = card_gallery.split(`","`);
+  var res1 = card_gallery[0];
+  var res=res1.split(`","`);
   console.log(res[0]);
   console.log(res[1]);
   console.log(res[2]);
