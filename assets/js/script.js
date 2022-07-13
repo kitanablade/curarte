@@ -221,6 +221,20 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   
 }
 
+
+//AK- resetting the gallery
+
+$("#clearbtn").on("click",function()
+{
+  console.log("inside clear");
+  for(var i=0;i<25;i++)
+  {
+    $("#my_gallery").html("");
+  localStorage.removeItem(`ls_cardInfo${i}`);
+ 
+  }
+});
+
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
 var dataToSave=[];
@@ -258,11 +272,11 @@ function saveCurrentGallery(i, lscard_details)
 }
 
 function displayOnClick(){}
-$("#myCollection").on("click", savGallery());
+$("#myCollection").on("click", saveGallery());
 
 
 
-function savGallery() {
+function saveGallery() {
  
   for(var i=0;i<25;i++)
   {
@@ -306,3 +320,4 @@ function savGallery() {
   }
  
 }
+
