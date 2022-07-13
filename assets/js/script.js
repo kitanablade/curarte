@@ -68,7 +68,7 @@ function artistTitleSearch() {
   var userTextInput = document.getElementById("modal-srch-txt-field").value;
   const aicSearchRequestFields = ["title", "api_link"];
   saveBtnFlag = true;
-  var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
+  var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput} + [is_public_domain]=true`;
   aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
   // Get all the artworks by the artist, or artworks matching artwork title
