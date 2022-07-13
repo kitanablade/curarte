@@ -235,29 +235,31 @@ $("#clearbtn").on("click",function()
   }
 });
 
+$(".lscard2").on("click",function(){
+  console.log("id check ak:"+this.id);
+});
+
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
 var dataToSave=[];
 var data=[];
 var galleryCard= [];
 
+
+
 function saveCurrentGallery(i, lscard_details)
 {
-
-  
-
 //     dataToSave=card_gallery[i];
     galleryCard=lscard_details;
     var resultsCard="";
-    
-   
-    resultsCard +=`<div class="col l3 m4 s12">`
+    resultsCard +=`<div class="col l3 m4 s12" id="lscard${i}">`
     resultsCard +=`<div class="card medium sticky-action">`
     resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
     resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-content">`
     resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
+    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave${i}"><i class="material-icons">favorite</i></a>`
     resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-reveal">`
@@ -271,7 +273,7 @@ function saveCurrentGallery(i, lscard_details)
   
 }
 
-function displayOnClick(){}
+
 $("#myCollection").on("click", saveGallery());
 
 
@@ -301,12 +303,13 @@ function saveGallery() {
     
    
     resultsCard +=`<div class="col l3 m4 s12">`
-    resultsCard +=`<div class="card medium sticky-action">`
+    resultsCard +=`<div class="card medium sticky-action" id="lscard${i}">`
     resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
     resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-content">`
     resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
+    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave${i}"><i class="material-icons">favorite</i></a>`
     resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-reveal">`
