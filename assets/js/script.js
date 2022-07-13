@@ -44,19 +44,15 @@ $(document).ready(function () {
   $("input#input_text, textarea#textarea2").characterCounter();
 });
 
-
-var maxResultsDisplay=5;
-
-$("#modal-srch-txt-field").keypress(function(event){
+$("#modal-srch-txt-field").keypress(function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     artistTitleSearch();
   }
-})
-document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
+});
 const searchBtn = document.getElementById("modal-form-srch-btn");
 // Flip search modal SEARCH/RESET button text and funcitonality
-searchBtn.onclick = function(){
+searchBtn.onclick = function () {
   if (searchBtn.innerText === "SEARCH") {
     artistTitleSearch();
   } else {
@@ -81,17 +77,17 @@ function artistTitleSearch() {
       return response.json();
     })
     .then(function (artWorks) {
-      console.log(artWorks);
-      if (artWorks.data.length == 0){
+      if (artWorks.data.length == 0) {
         displayResults(
-                      artworkTitle = "We're sorry, there are no results for this search.",
-                      artistName = "",
-                      dateDisplay = "",
-                      renderQueryImageURL = "./assets/images/the_scream.jpg",
-                      wikiDescription = "",
-                      elementIdNum = 0,
-                      saveBtnFlag = false
-    )}
+          (artworkTitle = "We're sorry, there are no results for this search."),
+          (artistName = ""),
+          (dateDisplay = ""),
+          (renderQueryImageURL = "./assets/images/the_scream.jpg"),
+          (wikiDescription = ""),
+          (elementIdNum = 0),
+          (saveBtnFlag = false)
+        );
+      }
       for (let i = 0; i < artWorks.data.length; i++) {
         var aicArtPieceApi = artWorks.data[i].api_link;
 
@@ -150,40 +146,37 @@ function artistTitleSearch() {
                       saveBtnFlag
                     );
 
- //Ak- Saving the button event to local storage
+                    //Ak- Saving the button event to local storage
 
- $(`#button${i}`).on("click", function () {
-  console.log("Ak test");
-  var buttonID = `button${i}`;
-  var imageID = $(`#image${i}`).attr("src");
-  var titleID = $(`#title${i}`).html();
-  var artistID = $(`#artist${i}`).html();
-  var dateID = $(`#date${i}`).html();
-  var wikiDescID = $(`#wikiDesc${i}`).html();
-  var lscard_details = [
-    buttonID,
-    imageID,
-    titleID,
-    artistID,
-    dateID,
-    wikiDescID,
-  ];
-  console.log("ak test"+lscard_details);
-  localStorage.setItem(
-    `ls_cardInfo${i}`,
-    JSON.stringify(lscard_details)
-  );
-  saveCurrentGallery(i,lscard_details );
+                    $(`#button${i}`).on("click", function () {
+                      console.log("Ak test");
+                      var buttonID = `button${i}`;
+                      var imageID = $(`#image${i}`).attr("src");
+                      var titleID = $(`#title${i}`).html();
+                      var artistID = $(`#artist${i}`).html();
+                      var dateID = $(`#date${i}`).html();
+                      var wikiDescID = $(`#wikiDesc${i}`).html();
+                      var lscard_details = [
+                        buttonID,
+                        imageID,
+                        titleID,
+                        artistID,
+                        dateID,
+                        wikiDescID,
+                      ];
+                      console.log("ak test" + lscard_details);
+                      localStorage.setItem(
+                        `ls_cardInfo${i}`,
+                        JSON.stringify(lscard_details)
+                      );
+                      saveCurrentGallery(i, lscard_details);
 
-  console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
-});
-
-
+                      console.log(
+                        JSON.parse(localStorage.getItem("ls_cardInfo"))
+                      );
+                    });
                   });
               });
-
-           
-            // Append &fields to URL to limit results and speed up the response
           });
       }
     });
@@ -192,7 +185,15 @@ function artistTitleSearch() {
 //AK- added vriable i to keep track of dom element ids
 //AK- added ids for the dom elements
 
-function displayResults(title, artist, date, image, wikiDesc, elementIdNum, saveBtnFlag) {
+function displayResults(
+  title,
+  artist,
+  date,
+  image,
+  wikiDesc,
+  elementIdNum,
+  saveBtnFlag
+) {
   // if (imgage==null){
   //   saveBtnFlag = false;
   // }
@@ -213,113 +214,88 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   resultsCard += `</h6>`;
   resultsCard += `<h6 id="date${elementIdNum}">`;
   resultsCard += `${date}`;
-
   resultsCard += `</h5>`;
   // Only display the Save To List button if there are results to save
-  if (saveBtnFlag){
-  resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
-  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
-  resultsCard += `</strong>`;
-  resultsCard += `</button>`;
+  if (saveBtnFlag) {
+    resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
+    resultsCard += `<strong class="fas fa-save">ADD TO GALLERY`;
+    resultsCard += `</strong>`;
+    resultsCard += `</button>`;
   }
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
   resultsCard += `</p>`;
   resultsCard += `</h6>`;
-  if (saveBtnFlag){
-  }
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   $("#results-card-container").append(resultsCard);
-
-  
 }
 
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
-var dataToSave=[];
-var data=[];
-var galleryCard= [];
+var dataToSave = [];
+var data = [];
+var galleryCard = [];
 
-function saveCurrentGallery(i, lscard_details)
-{
+function saveCurrentGallery(i, lscard_details) {
+  //     dataToSave=card_gallery[i];
+  galleryCard = lscard_details;
+  var resultsCard = "";
 
-  
+  resultsCard += `<div class="col l3 m4 s12">`;
+  resultsCard += `<div class="card medium sticky-action">`;
+  resultsCard += `<div class="card-image waves-effect waves-block waves-light hoverable">`;
+  resultsCard += `<img class="activator" id="img1" src="${galleryCard[1]}">`;
+  resultsCard += `</div>`;
+  resultsCard += `<div class="card-content">`;
+  resultsCard += `<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`;
+  resultsCard += `<p id="info"><a href="#"></a>${galleryCard[2]}</p>`;
+  resultsCard += `</div>`;
+  resultsCard += `<div class="card-reveal">`;
+  resultsCard += `<span class="card-title grey-text text-darken-4" ><i class="material-icons right">close</i><p id="title"></p></span>`;
+  resultsCard += `<p id="wikiData">${galleryCard[5]}</p>`;
+  resultsCard += `</div>`;
+  resultsCard += `</div>`;
+  resultsCard += `</div>`;
 
-//     dataToSave=card_gallery[i];
-    galleryCard=lscard_details;
-    var resultsCard="";
-    
-   
-    resultsCard +=`<div class="col l3 m4 s12">`
-    resultsCard +=`<div class="card medium sticky-action">`
-    resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
-    resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
-    resultsCard +=`</div>`
-    resultsCard +=`<div class="card-content">`
-    resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
-    resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
-    resultsCard +=`</div>`
-    resultsCard +=`<div class="card-reveal">`
-    resultsCard +=`<span class="card-title grey-text text-darken-4" ><i class="material-icons right">close</i><p id="title"></p></span>`
-    resultsCard +=`<p id="wikiData">${galleryCard[5]}</p>`
-    resultsCard +=`</div>`
-    resultsCard += `</div>`
-    resultsCard += `</div>`
-    
-    $("#my_gallery").append(resultsCard);
-  
+  $("#my_gallery").append(resultsCard);
 }
 
-function displayOnClick(){}
+function displayOnClick() {}
 $("#myCollection").on("click", savGallery());
 
-
-
 function savGallery() {
- 
-  for(var i=0;i<25;i++)
-  {
-//console.log(JSON.parse(localStorage.getItem(`ls_cardInfo${i}`)));
-       data=JSON.parse(localStorage.getItem(`ls_cardInfo${i}`));
-      if(data!=null)
-      {
-        card_gallery.push(data);
-
-      }
-      
+  for (var i = 0; i < 25; i++) {
+    data = JSON.parse(localStorage.getItem(`ls_cardInfo${i}`));
+    if (data != null) {
+      card_gallery.push(data);
+    }
   }
 
-  console.log("ak_gallery"+card_gallery);
-  
-  for(var i=0;i<25;i++)
-  {
+  console.log("ak_gallery" + card_gallery);
 
-//     dataToSave=card_gallery[i];
-    galleryCard=card_gallery[i];
-    var resultsCard="";
-    
-   
-    resultsCard +=`<div class="col l3 m4 s12">`
-    resultsCard +=`<div class="card medium sticky-action">`
-    resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
-    resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
-    resultsCard +=`</div>`
-    resultsCard +=`<div class="card-content">`
-    resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
-    resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
-    resultsCard +=`</div>`
-    resultsCard +=`<div class="card-reveal">`
-    resultsCard +=`<span class="card-title grey-text text-darken-4" ><i class="material-icons right">close</i><p id="title"></p></span>`
-    resultsCard +=`<p id="wikiData">${galleryCard[5]}</p>`
-    resultsCard +=`</div>`
-    resultsCard += `</div>`
-    resultsCard += `</div>`
-    
+  for (var i = 0; i < 25; i++) {
+    galleryCard = card_gallery[i];
+    var resultsCard = "";
+
+    resultsCard += `<div class="col l3 m4 s12">`;
+    resultsCard += `<div class="card medium sticky-action">`;
+    resultsCard += `<div class="card-image waves-effect waves-block waves-light hoverable">`;
+    resultsCard += `<img class="activator" id="img1" src="${galleryCard[1]}">`;
+    resultsCard += `</div>`;
+    resultsCard += `<div class="card-content">`;
+    resultsCard += `<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`;
+    resultsCard += `<p id="info"><a href="#"></a>${galleryCard[2]}</p>`;
+    resultsCard += `</div>`;
+    resultsCard += `<div class="card-reveal">`;
+    resultsCard += `<span class="card-title grey-text text-darken-4" ><i class="material-icons right">close</i><p id="title"></p></span>`;
+    resultsCard += `<p id="wikiData">${galleryCard[5]}</p>`;
+    resultsCard += `</div>`;
+    resultsCard += `</div>`;
+    resultsCard += `</div>`;
     $("#my_gallery").append(resultsCard);
   }
- 
 }
