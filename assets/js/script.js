@@ -282,6 +282,7 @@ function saveCurrentGallery(i, lscard_details)
     resultsCard += `</div>`
     
     $("#my_gallery").append(resultsCard);
+    
   
 }
 
@@ -356,7 +357,11 @@ function saveGallery() {
    var card_id=this.id;
   var id=card_id.split("-");
    console.log("id check ak:"+id);
+   location.reload();
+   setTimeout(function() { 
+   $(`unsave${id[1]}`).removeClass("red");
    $(`#card-${id[1]}`).append(" ");
+  }, 5000);
    localStorage.removeItem(`ls_cardInfo${id[1]}`);
   
   
