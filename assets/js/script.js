@@ -139,8 +139,8 @@ function artistTitleSearch() {
  //Ak- Saving the button event to local storage
 
  $(`#button${i}`).on("click", function () {
-  console.log("Ak test");
-  var buttonID = `button${i}`;
+  //console.log("Ak test");
+  var buttonID = `button-${i}`;
   var imageID = $(`#image${i}`).attr("src");
   var titleID = $(`#title${i}`).html();
   var artistID = $(`#artist${i}`).html();
@@ -154,14 +154,14 @@ function artistTitleSearch() {
     dateID,
     wikiDescID,
   ];
-  console.log("ak test"+lscard_details);
+  //console.log("ak test"+lscard_details);
   localStorage.setItem(
     `ls_cardInfo${i}`,
     JSON.stringify(lscard_details)
   );
-  saveCurrentGallery(i,lscard_details );
+  saveCurrentGallery(i,lscard_details);
 
-  console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
+ // console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
 });
 
 
@@ -235,9 +235,7 @@ $("#clearbtn").on("click",function()
   }
 });
 
-$(".lscard2").on("click",function(){
-  console.log("id check ak:"+this.id);
-});
+
 
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
@@ -245,21 +243,22 @@ var dataToSave=[];
 var data=[];
 var galleryCard= [];
 
-
+ls_gallery_len=0;
 
 function saveCurrentGallery(i, lscard_details)
 {
+  console.log("inside the card dis");
 //     dataToSave=card_gallery[i];
     galleryCard=lscard_details;
     var resultsCard="";
-    resultsCard +=`<div class="col l3 m4 s12" id="lscard${i}">`
+    resultsCard +=`<div class="col l3 m4 s12" id="card-${i}">`
     resultsCard +=`<div class="card medium sticky-action">`
     resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
     resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-content">`
     resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
-    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave${i}"><i class="material-icons">favorite</i></a>`
+    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave-${i}"><i class="material-icons">favorite</i></a>`
     resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-reveal">`
@@ -274,10 +273,10 @@ function saveCurrentGallery(i, lscard_details)
 }
 
 
-$("#myCollection").on("click", saveGallery());
+//$("#myCollection").on("click", saveGallery());
 
 
-
+saveGallery();
 function saveGallery() {
  
   for(var i=0;i<25;i++)
@@ -292,24 +291,30 @@ function saveGallery() {
       
   }
 
-  console.log("ak_gallery"+card_gallery);
+  ls_gallery_len=card_gallery.length
+  console.log("ak_gallery"+card_gallery.length);
   
   for(var i=0;i<25;i++)
   {
 
 //     dataToSave=card_gallery[i];
     galleryCard=card_gallery[i];
+    if(galleryCard!=null)
+    {
+
+    var idNum=galleryCard[0].split("-");
+   
     var resultsCard="";
     
    
-    resultsCard +=`<div class="col l3 m4 s12">`
-    resultsCard +=`<div class="card medium sticky-action" id="lscard${i}">`
+    resultsCard +=`<div class="col l3 m4 s12" id="card-${idNum[1]}">`
+    resultsCard +=`<div class="card medium sticky-action" >`
     resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
     resultsCard +=`<img class="activator" id="img1" src="${galleryCard[1]}">`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-content">`
     resultsCard +=`<span class="card-title activator grey-text text-darken-4" ><i class="material-icons right" >more_vert</i><p id="title">${galleryCard[3]} </p></span>`
-    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave${i}"><i class="material-icons">favorite</i></a>`
+    resultsCard +=`<a class="btn-floating halfway-fab waves-effect waves-light red" id="unsave-${idNum[1]}"><i class="material-icons">favorite</i></a>`
     resultsCard +=`<p id="info"><a href="#"></a>${galleryCard[2]}</p>`
     resultsCard +=`</div>`
     resultsCard +=`<div class="card-reveal">`
@@ -320,7 +325,28 @@ function saveGallery() {
     resultsCard += `</div>`
     
     $("#my_gallery").append(resultsCard);
+    }
   }
  
+
+
 }
+
+
+
+
+ $(`.btn-floating`).on("click", function()
+ {
+   
+   console.log("id check ak:");
+   //
+   var card_id=this.id;
+  var id=card_id.split("-");
+   console.log("id check ak:"+id);
+   $(`#card-${id[1]}`).append(" ");
+   localStorage.removeItem(`ls_cardInfo${id[1]}`);
+  
+  
+ });
+ 
 
