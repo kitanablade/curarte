@@ -54,6 +54,7 @@ const searchBtn = document.getElementById("modal-form-srch-btn");
 // Flip search modal SEARCH/RESET button text and funcitonality
 searchBtn.onclick = function () {
   if (searchBtn.innerText === "SEARCH") {
+    
     artistTitleSearch();
   } else {
     $("#results-card-container").html("");
@@ -260,7 +261,8 @@ ls_gallery_len=0;
 
 function saveCurrentGallery(i, lscard_details)
 {
-  console.log("inside the card dis");
+  
+ // console.log("inside the card dis");
 //     dataToSave=card_gallery[i];
     galleryCard=lscard_details;
     var resultsCard="";
@@ -292,7 +294,7 @@ function saveCurrentGallery(i, lscard_details)
 
 saveGallery();
 function saveGallery() {
- 
+  
   for(var i=0;i<25;i++)
   {
 //console.log(JSON.parse(localStorage.getItem(`ls_cardInfo${i}`)));
@@ -306,7 +308,7 @@ function saveGallery() {
   }
 
   ls_gallery_len=card_gallery.length
-  console.log("ak_gallery"+card_gallery.length);
+  //console.log("ak_gallery"+card_gallery.length);
   
   for(var i=0;i<25;i++)
   {
@@ -368,3 +370,4 @@ function saveGallery() {
  });
  
 
+ 
