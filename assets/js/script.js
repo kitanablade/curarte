@@ -44,9 +44,6 @@ $(document).ready(function () {
   $("input#input_text, textarea#textarea2").characterCounter();
 });
 
-
-var maxResultsDisplay=5;
-
 $("#modal-srch-txt-field").keypress(function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -150,6 +147,8 @@ function artistTitleSearch() {
                       saveBtnFlag
                     );
 
+
+                    
  //Ak- Saving the button event to local storage
 
  $(`#button${i}`).on("click", function () {
@@ -218,7 +217,7 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   // Only display the Save To List button if there are results to save
   if (saveBtnFlag){
   resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
-  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
+  resultsCard += `<strong class="fas fa-save">ADD TO GALLERY`;
   resultsCard += `</strong>`;
   resultsCard += `</button>`;
   }
@@ -246,14 +245,10 @@ var galleryCard= [];
 
 function saveCurrentGallery(i, lscard_details)
 {
-
-  
-
 //     dataToSave=card_gallery[i];
     galleryCard=lscard_details;
     var resultsCard="";
     
-   
     resultsCard +=`<div class="col l3 m4 s12">`
     resultsCard +=`<div class="card medium sticky-action">`
     resultsCard +=`<div class="card-image waves-effect waves-block waves-light hoverable">`
@@ -271,7 +266,6 @@ function saveCurrentGallery(i, lscard_details)
     resultsCard += `</div>`
     
     $("#my_gallery").append(resultsCard);
-  
 }
 
 function displayOnClick(){}
@@ -283,7 +277,6 @@ function savGallery() {
  
   for(var i=0;i<25;i++)
   {
-//console.log(JSON.parse(localStorage.getItem(`ls_cardInfo${i}`)));
        data=JSON.parse(localStorage.getItem(`ls_cardInfo${i}`));
       if(data!=null)
       {
@@ -297,11 +290,8 @@ function savGallery() {
   
   for(var i=0;i<25;i++)
   {
-
-//     dataToSave=card_gallery[i];
     galleryCard=card_gallery[i];
     var resultsCard="";
-    
    
     resultsCard +=`<div class="col l3 m4 s12">`
     resultsCard +=`<div class="card medium sticky-action">`
@@ -318,7 +308,6 @@ function savGallery() {
     resultsCard +=`</div>`
     resultsCard += `</div>`
     resultsCard += `</div>`
-    
     $("#my_gallery").append(resultsCard);
   }
  
