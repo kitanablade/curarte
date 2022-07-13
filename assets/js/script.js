@@ -44,21 +44,30 @@ $(document).ready(function () {
   $("input#input_text, textarea#textarea2").characterCounter();
 });
 
-
-var maxResultsDisplay=5;
-
-document.getElementById("modal-form-srch-btn").onclick = artistTitleSearch;
+$("#modal-srch-txt-field").keypress(function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    artistTitleSearch();
+  }
+});
+const searchBtn = document.getElementById("modal-form-srch-btn");
+// Flip search modal SEARCH/RESET button text and funcitonality
+searchBtn.onclick = function () {
+  if (searchBtn.innerText === "SEARCH") {
+    artistTitleSearch();
+  } else {
+    $("#results-card-container").html("");
+    searchBtn.innerText = "SEARCH";
+    $("#modal-srch-txt-field").focus();
+    document.getElementById("modal-srch-txt-field").value = "";
+  }
+};
 
 function artistTitleSearch() {
+  searchBtn.innerText = "RESET";
   var userTextInput = document.getElementById("modal-srch-txt-field").value;
- //Ak- changing the scope of maxResultsDisplay variable by moving it outside the function to use the variable in other functions s well
-  // var maxResultsDisplay = 5;
   const aicSearchRequestFields = ["title", "api_link"];
   saveBtnFlag = true;
-
-  // Limit search results URL:
-  //var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}&limit=${maxResultsDisplay}`;
-  // No-Limit search results URL:
   var aicSearchApi = `https://api.artic.edu/api/v1/artworks/search?q=${userTextInput}`;
   aicSearchApi = aicSearchApi.concat("&fields=", aicSearchRequestFields);
 
@@ -68,17 +77,17 @@ function artistTitleSearch() {
       return response.json();
     })
     .then(function (artWorks) {
-      console.log(artWorks);
-      if (artWorks.data.length == 0){
+      if (artWorks.data.length == 0) {
         displayResults(
-                      artworkTitle = "We're sorry, there are no results for this search.",
-                      artistName = "",
-                      dateDisplay = "",
-                      renderQueryImageURL = "./assets/images/the_scream.jpg",
-                      wikiDescription = "",
-                      elementIdNum = 0,
-                      saveBtnFlag = false
-    )}
+          (artworkTitle = "We're sorry, there are no results for this search."),
+          (artistName = ""),
+          (dateDisplay = ""),
+          (renderQueryImageURL = "./assets/images/the_scream.jpg"),
+          (wikiDescription = ""),
+          (elementIdNum = 0),
+          (saveBtnFlag = false)
+        );
+      }
       for (let i = 0; i < artWorks.data.length; i++) {
         var aicArtPieceApi = artWorks.data[i].api_link;
 
@@ -88,6 +97,7 @@ function artistTitleSearch() {
           "image_id",
           "title",
         ];
+
         aicArtPieceApi = aicArtPieceApi.concat(
           "?fields=",
           artPieceRequestFields
@@ -164,12 +174,9 @@ function artistTitleSearch() {
  // console.log(JSON.parse(localStorage.getItem("ls_cardInfo")));
 });
 
-
+              
                   });
               });
-
-           
-            // Append &fields to URL to limit results and speed up the response
           });
       }
     });
@@ -178,7 +185,15 @@ function artistTitleSearch() {
 //AK- added vriable i to keep track of dom element ids
 //AK- added ids for the dom elements
 
-function displayResults(title, artist, date, image, wikiDesc, elementIdNum, saveBtnFlag) {
+function displayResults(
+  title,
+  artist,
+  date,
+  image,
+  wikiDesc,
+  elementIdNum,
+  saveBtnFlag
+) {
   // if (imgage==null){
   //   saveBtnFlag = false;
   // }
@@ -199,26 +214,24 @@ function displayResults(title, artist, date, image, wikiDesc, elementIdNum, save
   resultsCard += `</h6>`;
   resultsCard += `<h6 id="date${elementIdNum}">`;
   resultsCard += `${date}`;
-
   resultsCard += `</h5>`;
-  resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
-  resultsCard += `<strong class="fas fa-save">SAVE TO LIST`;
-  resultsCard += `</strong>`;
-  resultsCard += `</button>`;
+  // Only display the Save To List button if there are results to save
+  if (saveBtnFlag) {
+    resultsCard += `<button class="btn saveBtn col-md-1" id="button${elementIdNum}">`;
+    resultsCard += `<strong class="fas fa-save">ADD TO GALLERY`;
+    resultsCard += `</strong>`;
+    resultsCard += `</button>`;
+  }
   resultsCard += `<p id="wikiDesc${elementIdNum}">`;
   resultsCard += `${wikiDesc}`;
   resultsCard += `</p>`;
   resultsCard += `</h6>`;
-  if (saveBtnFlag){
-  }
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   resultsCard += `</div>`;
   $("#results-card-container").append(resultsCard);
-
-  
 }
 
 
@@ -239,9 +252,9 @@ $("#clearbtn").on("click",function()
 
 //AK- Displaying the saved gallery using localstorage varibles
 var card_gallery = [];
-var dataToSave=[];
-var data=[];
-var galleryCard= [];
+var dataToSave = [];
+var data = [];
+var galleryCard = [];
 
 ls_gallery_len=0;
 
