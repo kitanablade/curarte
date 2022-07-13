@@ -18,6 +18,14 @@ nav .brand-logo{
   color: black;
 }
 
+#clearbtn{
+  position: relative;
+margin-top: 50px;
+}
+#my_gallery{
+  position: relative;
+  margin-top: 50px;
+}
 .intro{
   position: relative;
 margin-top: 100px;
