@@ -22,6 +22,10 @@ nav .brand-logo{
   position: relative;
 margin-top: 50px;
 }
+#savebtn{
+  position: relative;
+margin-top: 50px;
+}
 #my_gallery{
   position: relative;
   margin-top: 50px;
