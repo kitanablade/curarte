@@ -6,7 +6,7 @@ $(document).ready(function () {
   /*AK- HTML- Materialize framework design */
   $(document).ready(function(){
     $('.slider').slider({
-      height : 400, // default - height : 400
+      height : 800, // default - height : 400
          
     });
   });
